@@ -6,3 +6,5 @@
 intermediate/
 *build/
 
+# smfl huge lib files
+*SFML-3.0.2/lib/
