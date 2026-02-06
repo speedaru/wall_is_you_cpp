@@ -1,40 +1,25 @@
 #include "pch.h"
-#include <utils/logging.hpp>
+#include "game/constants.hpp"
+#include "utils/logging.hpp"
 
-#include <engine/include/WindowManager.hpp>
+#include "engine/datatypes/UICommands.hpp"
+#include "engine/WindowManager.hpp"
+#include "engine/ThreadSafeQueue.hpp"
+#include "engine/ServiceLocator.hpp"
+
+#include "game/Game.hpp"
 
 
 int main(int argc, char** argv) {
-	sf::RenderWindow window(sf::VideoMode(sf::Vector2u(1280, 720)), "Wall is you");
-    WindowManager winManager;
+	WindowManager winManager;
+    ThreadSafeQueue<UICommand> threadSafeQueue;
 
-    // Initial Window: The Start Menu
-    // winManager.push(std::make_unique<StartMenuView>());
+    ServiceLocator::Init(&winManager, &threadSafeQueue);
 
-    sf::Clock clock;
-    while (window.isOpen()) {
-        float dt = clock.restart().asSeconds();
+    Game game(WINDOW_SIZE, "Wall Is You");
 
-        std::optional<sf::Event> event = window.pollEvent();
-        while (event.has_value()) {
-            if (event.value().is<sf::Event::Closed>()) {
-                window.close();
-            }
-            winManager.HandleEvents(event.value());
-
-			event = window.pollEvent();
-        }
-
-        // 1. Process pushes/pops requested by Logic thread or UI
-        winManager.ProcessChanges();
-
-        // 2. Update top window
-        winManager.Update(dt);
-
-        // 3. Render
-        window.clear(sf::Color::Black);
-        winManager.Render(window);
-        window.display();
+    while (game.IsRunning()) {
+        game.DoFrame();
     }
 }
 

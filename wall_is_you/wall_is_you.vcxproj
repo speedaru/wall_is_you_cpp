@@ -99,13 +99,21 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\engine\datatypes\UICommands.hpp" />
+    <ClCompile Include="src\engine\ServiceLocator.hpp" />
+    <ClCompile Include="src\game\Game.hpp" />
+    <ClCompile Include="src\game\Game.cpp" />
+    <ClCompile Include="src\game\windows\StartMenuView.cpp" />
+    <ClCompile Include="src\game\windows\StartMenuView.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\include\datatypes\IView.hpp" />
-    <ClInclude Include="src\engine\include\WindowManager.hpp" />
+    <ClInclude Include="src\engine\datatypes\IView.hpp" />
+    <ClInclude Include="src\engine\ThreadSafeQueue.hpp" />
+    <ClInclude Include="src\engine\WindowManager.hpp" />
+    <ClInclude Include="src\game\constants.hpp" />
     <ClInclude Include="src\utils\logging.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
