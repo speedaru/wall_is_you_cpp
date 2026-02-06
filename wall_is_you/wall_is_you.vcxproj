@@ -101,6 +101,7 @@
     </ClCompile>
     <ClCompile Include="src\engine\datatypes\UICommands.hpp" />
     <ClCompile Include="src\engine\ServiceLocator.hpp" />
+    <ClCompile Include="src\engine\WindowManager.cpp" />
     <ClCompile Include="src\game\Game.hpp" />
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\windows\StartMenuView.cpp" />
