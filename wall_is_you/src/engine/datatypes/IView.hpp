@@ -6,7 +6,7 @@ public:
     virtual ~IView() = default;
 
     // Standard hooks for the Main Thread
-    virtual void HandleEvent(const sf::Event& event) = 0;
+    virtual bool HandleEvent(const sf::RenderWindow& window, const sf::Event& event) = 0; // returns true if handled event
     virtual void Update(float dt) = 0;
     virtual void Render(sf::RenderWindow& window) = 0;
 

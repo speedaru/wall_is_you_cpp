@@ -6,11 +6,11 @@ class WindowManager {
 public:
     void Push(std::unique_ptr<IView> view);
 
-	inline void Pop() { m_shouldPop = true; }
+    void Pop();
 
     void ProcessChanges();
 
-    void HandleEvents(const sf::Event& event);
+    void HandleEvent(const sf::RenderWindow& window, const sf::Event& event);
 
     void Update(float dt);
 
@@ -21,5 +21,5 @@ public:
 private:
     std::vector<std::unique_ptr<IView>> m_viewStack;
     std::vector<std::unique_ptr<IView>> m_pendingPush;
-    bool m_shouldPop = false;
+    int m_popCount{ 0 };
 };
