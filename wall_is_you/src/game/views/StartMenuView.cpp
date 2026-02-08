@@ -104,6 +104,6 @@ void StartMenuView::CreateWidgets() {
         button.SetPos(WINDOW_SIZE.x / 2.f, y, AnchorType::CENTER);
         button.SetBackgroundColor(sf::Color(255, 255, 255, 65));
         
-        y += button.GetSize().y + 20.f;
+        y += button.GetGlobalBounds().size.y + 20.f;
     }
 }

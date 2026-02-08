@@ -9,7 +9,7 @@ void sp::ui::Button::SetSize(float w, float h) {
 }
 
 void sp::ui::Button::SetSizeFromText(float innerPadding) {
-    sf::Vector2f textSize = m_text.GetSize();
+    sf::Vector2f textSize = m_text.GetGlobalBounds().size;
     SetSize(textSize.x + innerPadding, textSize.y + innerPadding);
 }
 
@@ -17,7 +17,7 @@ void sp::ui::Button::SetPos(float x, float y, AnchorType anchorOrigin) {
     // must set size before pos
     assert(m_rect.getSize() != sf::Vector2f(0.f, 0.f));
 
-    m_rect.setOrigin(geom::GetAnchorPos(m_rect.getSize(), anchorOrigin));
+    m_rect.setOrigin(geom::GetAnchorPos(m_rect.getLocalBounds().size, anchorOrigin));
     m_rect.setPosition(sf::Vector2f(x, y));
 
     CenterText();
@@ -54,6 +54,6 @@ void sp::ui::Button::Render(sf::RenderWindow& window) const {
 
 void sp::ui::Button::CenterText() {
     if (m_text.IsInitialized()) {
-        m_text.SetPos(GetPos().x, GetPos().y, AnchorType::CENTER);
+        m_text.SetPos(m_rect.getPosition().x, m_rect.getPosition().y, AnchorType::CENTER);
     }
 }

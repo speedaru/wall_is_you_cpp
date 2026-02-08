@@ -21,11 +21,8 @@ namespace sp {
 			bool IsClicked(const sf::RenderWindow& window, const sf::Event& event) const;
 
 			virtual void Render(sf::RenderWindow& window) const override;
-			virtual sf::Vector2f GetSize() const override {
-				return m_rect.getSize();
-			}
-			virtual sf::Vector2f GetPos() const override {
-				return m_rect.getPosition();
+			virtual sf::FloatRect GetGlobalBounds() const override {
+				return m_rect.getGlobalBounds();
 			}
 
 		private:

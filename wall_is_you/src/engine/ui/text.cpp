@@ -20,8 +20,8 @@ void sp::ui::Text::SetText(const std::string& text) {
 }
 
 void sp::ui::Text::SetPos(float x, float y, AnchorType anchorOrigin) {
-    m_text->setOrigin(sf::Vector2f(0.f, 0.f)); // reset origin before reapplying it so GetPos()
-	m_text->setOrigin(GetPos() + geom::GetAnchorPos(GetSize(), anchorOrigin));
+    sf::FloatRect bounds = m_text->getLocalBounds();
+	m_text->setOrigin(bounds.position + geom::GetAnchorPos(bounds.size, anchorOrigin));
 	m_text->setPosition(sf::Vector2f(x, y));
 }
 

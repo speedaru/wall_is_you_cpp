@@ -18,11 +18,8 @@ namespace sp {
 				return m_text != nullptr;
 			}
 
-			virtual sf::Vector2f GetSize() const override {
-				return m_text->getGlobalBounds().size;
-			}
-			virtual sf::Vector2f GetPos() const override {
-				return m_text->getGlobalBounds().position;
+			virtual sf::FloatRect GetGlobalBounds() const override {
+				return m_text->getGlobalBounds();
 			}
 			virtual void Render(sf::RenderWindow& window) const override;
 
