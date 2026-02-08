@@ -94,6 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\renderer.cpp" />
     <ClCompile Include="src\engine\ui\text.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -122,6 +123,7 @@
     <None Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\renderer.hpp" />
     <ClInclude Include="src\engine\ui\text.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\engine\AssetManager.hpp" />

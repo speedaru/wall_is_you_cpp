@@ -4,6 +4,7 @@
 
 #include "engine/ServiceLocator.hpp"
 #include "engine/WindowManager.hpp"
+#include "engine/renderer.hpp"
 
 #include "game/views/StartMenuView.hpp"
 
@@ -38,16 +39,7 @@ void Game::DoFrame() {
 }
 
 void Game::RenderFrame() {
-	WindowManager& winManager = ServiceLocator::GetWindowManager();
-	float dt = m_clock.restart().asSeconds();
-
-	// Update top window
-	winManager.Update(dt);
-
-	// Render
-	m_window->clear(sf::Color::Black);
-	winManager.Render(*m_window);
-	m_window->display();
+	sp::engine::renderer::Render(*m_window, m_clock);
 }
 
 void Game::HandleEvent() {
