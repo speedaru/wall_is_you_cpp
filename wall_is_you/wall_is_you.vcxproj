@@ -115,6 +115,7 @@
     <ClCompile Include="src\game\views\DungeonView.cpp" />
     <ClCompile Include="src\game\views\HudView.cpp" />
     <ClCompile Include="src\game\views\StartMenuView.cpp" />
+    <ClCompile Include="src\utils\sf_events.cpp" />
     <ClCompile Include="src\utils\string.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +144,7 @@
     <ClInclude Include="src\game\views\HudView.hpp" />
     <ClInclude Include="src\game\views\StartMenuView.hpp" />
     <ClInclude Include="src\utils\logging.hpp" />
+    <ClInclude Include="src\utils\sf_events.hpp" />
     <ClInclude Include="src\utils\string.hpp" />
   </ItemGroup>
   <ItemGroup>

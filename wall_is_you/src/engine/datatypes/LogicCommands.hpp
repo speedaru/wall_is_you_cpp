@@ -3,8 +3,7 @@
 
 // payloads for different types of logic commands
 struct LoadDungeonData {
-    std::string path;
-    int difficulty;
+    fs::path path;
 };
 
 struct EntityInteractionData {
@@ -23,15 +22,12 @@ using LogicPayload = std::variant<std::monostate,
     SettingsChangeData
 >;
 
-// different types of commands
-enum class LogicCommandType {
-    LoadDungeon,
-    EntityInteraction,
-    SettingsChange,
-};
-
 
 struct LogicCommand {
-    LogicCommandType type;
+	enum class Type {
+		LoadDungeon,
+		EntityInteraction,
+		SettingsChange,
+	} type;
     LogicPayload payload;
 };

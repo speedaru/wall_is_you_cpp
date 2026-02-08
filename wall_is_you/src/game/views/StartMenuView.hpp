@@ -21,10 +21,14 @@ public:
     virtual bool IsModal() const override { return true; }
 
 private:
+    void CreateAssets();
     void CreateWidgets();
 
-// widgets
 private:
+    // assets
+    std::unique_ptr<sf::Sprite> m_background;
+
+	// widgets
     sp::ui::Button m_playButton;
     std::vector<DungeonFileButton> m_dungeonButtons;
 };

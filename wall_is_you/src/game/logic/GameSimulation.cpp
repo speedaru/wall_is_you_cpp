@@ -49,16 +49,25 @@ void GameSimulation::Run() {
 }
 
 
+void GameSimulation::LoadDungeon(const LoadDungeonData& data) {
+	// create stages
+	m_currentStage = StageFactory::CreateDungeonLoop();
+
+    // load dungeon layout
+
+    // load entites
+}
+
 void GameSimulation::HandleLogicCommands() {
     LogicCommandQueue& logicQueue = ServiceLocator::GetLogicQueue();
 
     LogicCommand cmd;
     while (logicQueue.TryPop(cmd)) {
         switch (cmd.type) {
-        case LogicCommandType::LoadDungeon:
-            m_currentStage = StageFactory::CreateDungeonLoop();
+        case LogicCommand::Type::LoadDungeon:
+            LoadDungeon(std::get<LoadDungeonData>(cmd.payload));
             break;
-        case LogicCommandType::EntityInteraction:
+        case LogicCommand::Type::EntityInteraction:
             break;
         }
     }

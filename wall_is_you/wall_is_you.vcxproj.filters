@@ -72,6 +72,9 @@
     <ClCompile Include="src\game\views\StartMenuView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\utils\sf_events.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="pch.h" />
@@ -144,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\views\HudView.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\sf_events.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

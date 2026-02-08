@@ -7,10 +7,17 @@
 #include "game/constants.hpp"
 
 #include "utils/logging.hpp"
+#include "utils/sf_events.hpp"
 
 
 bool DungeonView::HandleEvent(const sf::RenderWindow& window, const sf::Event& event) {
 	m_hudView->HandleEvent(window, event);
+
+	if (sp::utils::IsKeyPressed(event, sf::Keyboard::Key::Escape)) {
+		UICommand cmd;
+		cmd.type = UICommand::Type::PopView;
+		ServiceLocator::GetUIQueue().Push(std::move(cmd));
+	}
 
 	return false;
 }

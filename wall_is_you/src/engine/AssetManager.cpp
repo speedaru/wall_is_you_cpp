@@ -2,11 +2,10 @@
 #include "AssetManager.hpp"
 
 
-void AssetManager::AddSprite(AssetId id, const fs::path& path) {
-	sf::Texture texture;
-	if (texture.loadFromFile(path)) {
-		m_assets[id] = std::make_shared<SpImage>(texture);
-	}
+void AssetManager::AddTexture(AssetId id, const fs::path& path) {
+	std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
+	m_assets[id] = texture;
+	bool _ = texture->loadFromFile(path);
 }
 
 void AssetManager::AddFont(AssetId id, const fs::path& path) {

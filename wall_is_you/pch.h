@@ -17,6 +17,8 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 // Third-party
 #include <nlohmann/json.hpp>

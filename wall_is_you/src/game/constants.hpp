@@ -1,5 +1,4 @@
 #include "pch.h"
-namespace fs = std::filesystem;
 
 inline const sf::Vector2u WINDOW_SIZE(768, 768);
 

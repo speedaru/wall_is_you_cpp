@@ -8,7 +8,7 @@ struct UICommand {
 		PopView,
 		ExitGame
 	} type;
-	std::unique_ptr<IView> view = nullptr;
+	std::unique_ptr<IView> view{ nullptr };
 
 	UICommand() = default;
 

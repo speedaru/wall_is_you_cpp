@@ -1,8 +1,5 @@
 #pragma once
 #include "pch.h"
-namespace fs = std::filesystem;
-
-#include "rendering/SpImage.hpp"
 
 
 enum class AssetId;
@@ -10,7 +7,7 @@ enum class AssetId;
 class AssetManager {
 public:
 	using Asset = std::variant<
-		std::shared_ptr<SpImage>,
+		std::shared_ptr<sf::Texture>,
 		std::shared_ptr<sf::Font>
 	>;
 
@@ -20,7 +17,7 @@ public:
 		return m_assets.contains(id);
 	}
 
-	void AddSprite(AssetId id, const fs::path& path);
+	void AddTexture(AssetId id, const fs::path& path);
 	void AddFont(AssetId id, const fs::path& path);
 
 	template <typename T>

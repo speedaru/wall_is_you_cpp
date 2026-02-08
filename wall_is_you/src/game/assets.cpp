@@ -25,6 +25,6 @@ void assets::LoadAssets(AssetManager& assetManager) {
 		}
 	};
 
-	addAssets(sprites, &AssetManager::AddSprite);
+	addAssets(sprites, &AssetManager::AddTexture);
 	addAssets(fonts, &AssetManager::AddFont);
 }

@@ -2,6 +2,7 @@
 #include "pch.h"
 
 class IGameStage;
+struct LoadDungeonData;
 
 class GameSimulation {
 public:
@@ -18,6 +19,9 @@ private:
     void HandleLogicCommands();
 
     void UpdateStages(float dt);
+
+private:
+    void LoadDungeon(const LoadDungeonData& data);
 
 private:
     std::jthread m_thread;

@@ -11,33 +11,31 @@
 
 
 StartMenuView::StartMenuView() {
+    CreateAssets();
     CreateWidgets();
 }
 
 bool StartMenuView::HandleEvent(const sf::RenderWindow& window, const sf::Event& event) {
-    if (m_playButton.IsClicked(window, event)) {
-        UICommandQueue& uiQueue = ServiceLocator::GetUIQueue();
-
-		UICommand loadDungeonView;
-		loadDungeonView.type = UICommand::Type::PushView;
-		loadDungeonView.view = std::make_unique<DungeonView>();
-
-		uiQueue.Push(std::move(loadDungeonView));
-        LOG_D("pushed dungeon view\n");
-
-        return true;
-    }
+  //  if (handled |= m_playButton.IsClicked(window, event)) {
+		//UICommand loadDungeonView;
+		//loadDungeonView.type = UICommand::Type::PushView;
+		//loadDungeonView.view = std::make_unique<DungeonView>();
+		//ServiceLocator::GetUIQueue().Push(std::move(loadDungeonView));
+  //  }
 
     // check dungeon file buttons clicked
     for (const auto& [dungeonFile, button] : m_dungeonButtons) {
         if (button.IsClicked(window, event)) {
-            UICommand cmd;
-            cmd.type = UICommand::Type::PushView;
-            cmd.view = nullptr; // dungeon
+            UICommand uiCmd;
+            uiCmd.type = UICommand::Type::PushView;
+            uiCmd.view = std::make_unique<DungeonView>(); // dungeon
+            ServiceLocator::GetUIQueue().Push(std::move(uiCmd));
 
-            ServiceLocator::GetUIQueue().Push(std::move(cmd));
+            LogicCommand logicCmd;
+            logicCmd.type = LogicCommand::Type::LoadDungeon;
+            logicCmd.payload = LoadDungeonData(dungeonFile);
 
-            return true;
+			return true;
         }
     }
 
@@ -49,20 +47,17 @@ void StartMenuView::Update(float dt) {
 }
 
 void StartMenuView::Render(sf::RenderWindow& window) {
-    AssetManager& assetManger = ServiceLocator::GetAssetManager();
-    const auto& background = assetManger.GetAsset<SpImage>(AssetId::START_BACKGROUND);
-
     // background
-    if (background)
-		window.draw(background->sprite);
+    assert(m_background != nullptr);
+	window.draw(*m_background);
 
     // dungeon file names
     for (const auto& [dungeonFile, button] : m_dungeonButtons) {
         button.Render(window);
     }
 
-    // play button
-    m_playButton.Render(window);
+    //// play button
+    //m_playButton.Render(window);
 }
 
 
@@ -75,6 +70,14 @@ static void GetDungeons(std::vector<fs::path>& outDungeonFiles) {
 
         outDungeonFiles.push_back(entry.path());
     }
+}
+
+
+void StartMenuView::CreateAssets() {
+    AssetManager& assetManger = ServiceLocator::GetAssetManager();
+
+    auto backgroundTexture = assetManger.GetAsset<sf::Texture>(AssetId::START_BACKGROUND);
+    m_background = std::make_unique<sf::Sprite>(*backgroundTexture);
 }
 
 void StartMenuView::CreateWidgets() {
