@@ -7,6 +7,8 @@
 #include "engine/WindowManager.hpp"
 
 #include "StageFactory.hpp"
+#include "game/datatypes/LogicCommands.hpp"
+#include "game/datatypes/SharedGameState.hpp"
 
 #include "utils/logging.hpp"
 
@@ -38,6 +40,9 @@ void GameSimulation::Run() {
         // 3. Check for Win/Loss;
         //LOG_D("running game logic\n");
 
+        // finally get game snapshot
+        UpdateGameSnapshot();
+
         // sleep
         auto endTime = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
@@ -49,17 +54,8 @@ void GameSimulation::Run() {
 }
 
 
-void GameSimulation::LoadDungeon(const LoadDungeonData& data) {
-	// create stages
-	m_currentStage = StageFactory::CreateDungeonLoop();
-
-    // load dungeon layout
-
-    // load entites
-}
-
 void GameSimulation::HandleLogicCommands() {
-    LogicCommandQueue& logicQueue = ServiceLocator::GetLogicQueue();
+    auto& logicQueue = ServiceLocator::GetLogicQueue<LogicCommand>();
 
     LogicCommand cmd;
     while (logicQueue.TryPop(cmd)) {
@@ -68,7 +64,7 @@ void GameSimulation::HandleLogicCommands() {
             LoadDungeon(std::get<LoadDungeonData>(cmd.payload));
             break;
         case LogicCommand::Type::EntityInteraction:
-            break;
+            break;  
         }
     }
 }
@@ -102,3 +98,31 @@ void GameSimulation::UpdateStages(float dt) {
         }
     }
 }
+
+void GameSimulation::UpdateGameSnapshot() {
+    GameSnapshot gameSnap;
+
+    m_dungeon.GetSnapshot(&gameSnap.dungeonSnap);
+
+    m_sharedGameState->PushGameSnap(std::move(gameSnap));
+}
+
+
+#pragma region logic_commands
+
+void GameSimulation::LoadDungeon(const LoadDungeonData& data) {
+	// create stages
+	m_currentStage = StageFactory::CreateDungeonLoop();
+
+    // load dungeon layout
+    m_dungeon.SetDimensions();
+    DungeonSnapshot dungeonSnap;
+    m_dungeon.GetSnapshot(&dungeonSnap);
+    LOG_D("set dimensions to: %ux%u\n", dungeonSnap.layout.width, dungeonSnap.layout.height);
+
+    // load entites
+
+    LOG_D("loaded dungeon: %s\n", data.path.string().c_str());
+}
+
+#pragma endregion

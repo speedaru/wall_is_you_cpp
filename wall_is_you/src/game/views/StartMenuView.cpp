@@ -3,9 +3,10 @@
 
 #include "engine/ServiceLocator.hpp"
 
+#include "game/datatypes/UICommands.hpp"
+#include "game/datatypes/LogicCommands.hpp"
 #include "game/assets.hpp"
 #include "game/constants.hpp"
-#include "game/views/DungeonView.hpp"
 
 #include "utils/logging.hpp"
 #include "utils/sf_events.hpp"
@@ -20,7 +21,7 @@ bool StartMenuView::HandleEvent(const sf::RenderWindow& window, const sf::Event&
     if (sp::utils::IsKeyPressed(event, keybinds::EXIT_KEY)) {
 		UICommand uiCmd;
 		uiCmd.type = UICommand::Type::ExitGame;
-		ServiceLocator::GetUIQueue().Push(std::move(uiCmd));
+		ServiceLocator::GetUIQueue<UICommand>().Push(std::move(uiCmd));
     }
 
   //  if (handled |= m_playButton.IsClicked(window, event)) {
@@ -34,13 +35,13 @@ bool StartMenuView::HandleEvent(const sf::RenderWindow& window, const sf::Event&
     for (const auto& [dungeonFile, button] : m_dungeonButtons) {
         if (button.IsClicked(window, event)) {
             UICommand uiCmd;
-            uiCmd.type = UICommand::Type::PushView;
-            uiCmd.view = std::make_unique<DungeonView>(); // dungeon
-            ServiceLocator::GetUIQueue().Push(std::move(uiCmd));
+            uiCmd.type = UICommand::Type::PushDungeonView;
+            ServiceLocator::GetUIQueue<UICommand>().Push(std::move(uiCmd));
 
             LogicCommand logicCmd;
             logicCmd.type = LogicCommand::Type::LoadDungeon;
             logicCmd.payload = LoadDungeonData(dungeonFile);
+            ServiceLocator::GetLogicQueue<LogicCommand>().Push(std::move(logicCmd));
 
 			return true;
         }
@@ -98,7 +99,7 @@ void StartMenuView::CreateWidgets() {
     m_playButton.SetSize(200.f, 60.f);
     m_playButton.SetFont(quicksand, 32, sf::Color::White);
     m_playButton.SetText("PLAY");
-    m_playButton.SetPos(WINDOW_SIZE.x / 2.f, WINDOW_SIZE.y / 2.f, AnchorType::CENTER);
+    m_playButton.SetPos(WINDOW_SIZE.x / 2.f, WINDOW_SIZE.y / 2.f, AnchorType::Center);
 
     // dungeons
     std::vector<fs::path> dungeonFiles;
@@ -111,7 +112,7 @@ void StartMenuView::CreateWidgets() {
         button.SetFont(outfit, 36, sf::Color::White);
         button.SetText(dungeonFile.filename().string());
         button.SetSizeFromText(8.f);
-        button.SetPos(WINDOW_SIZE.x / 2.f, y, AnchorType::CENTER);
+        button.SetPos(WINDOW_SIZE.x / 2.f, y, AnchorType::Center);
         button.SetBackgroundColor(sf::Color(255, 255, 255, 65));
         
         y += button.GetGlobalBounds().size.y + 20.f;

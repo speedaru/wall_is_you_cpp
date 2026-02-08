@@ -54,6 +54,6 @@ void sp::ui::Button::Render(sf::RenderWindow& window) const {
 
 void sp::ui::Button::CenterText() {
     if (m_text.IsInitialized()) {
-        m_text.SetPos(m_rect.getPosition().x, m_rect.getPosition().y, AnchorType::CENTER);
+        m_text.SetPos(m_rect.getPosition().x, m_rect.getPosition().y, AnchorType::Center);
     }
 }

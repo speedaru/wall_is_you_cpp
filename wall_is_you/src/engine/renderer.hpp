@@ -2,10 +2,10 @@
 #include "pch.h"
 
 
-namespace sp {
-	namespace engine {
-		namespace renderer {
-			void Render(sf::RenderWindow& window, sf::Clock& clock);
-		}
-	}
-}
+class SharedGameState;
+
+class Renderer {
+public:
+	void Render(sf::RenderWindow& window, sf::Clock& clock);
+};
+

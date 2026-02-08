@@ -3,15 +3,15 @@
 
 sf::Vector2f sp::ui::geom::GetAnchorPos(sf::Vector2f size, AnchorType anchor) {
 	switch (anchor) {
-	case AnchorType::CENTER:
+	case AnchorType::Center:
 		return sf::Vector2f(size.x / 2.f, size.y / 2.f);
-	case AnchorType::BOTTOM_RIGHT:
+	case AnchorType::BottomRight:
 		return sf::Vector2f(size.x, size.y);
-	case AnchorType::BOTTOM_LEFT:
+	case AnchorType::BottomLeft:
 		return sf::Vector2f(0.f, size.y);
-	case AnchorType::TOP_RIGHT:
+	case AnchorType::TopRight:
 		return sf::Vector2f(size.x, 0.f);
-	case AnchorType::TOP_LEFT:
+	case AnchorType::TopLeft:
 	default:
 		return sf::Vector2f(0.f, 0.f);
 	}

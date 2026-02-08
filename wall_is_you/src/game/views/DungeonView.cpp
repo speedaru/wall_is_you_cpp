@@ -4,6 +4,7 @@
 #include "engine/ServiceLocator.hpp"
 #include "engine/WindowManager.hpp"
 
+#include "game/datatypes/UICommands.hpp"
 #include "game/constants.hpp"
 
 #include "utils/logging.hpp"
@@ -16,7 +17,7 @@ bool DungeonView::HandleEvent(const sf::RenderWindow& window, const sf::Event& e
 	if (sp::utils::IsKeyPressed(event, keybinds::EXIT_KEY)) {
 		UICommand cmd;
 		cmd.type = UICommand::Type::PopView;
-		ServiceLocator::GetUIQueue().Push(std::move(cmd));
+		ServiceLocator::GetUIQueue<UICommand>().Push(std::move(cmd));
 	}
 
 	return false;

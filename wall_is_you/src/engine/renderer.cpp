@@ -6,7 +6,7 @@
 #include "WindowManager.hpp"
 
 
-void sp::engine::renderer::Render(sf::RenderWindow& window, sf::Clock& clock) {
+void Renderer::Render(sf::RenderWindow& window, sf::Clock& clock) {
 	WindowManager& winManager = ServiceLocator::GetWindowManager();
 	float dt = clock.restart().asSeconds();
 

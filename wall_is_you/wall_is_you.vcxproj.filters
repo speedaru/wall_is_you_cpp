@@ -21,7 +21,7 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\datatypes\UICommands.hpp">
+    <ClCompile Include="src\game\datatypes\UICommands.hpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\ServiceLocator.hpp">
@@ -75,7 +75,10 @@
     <ClCompile Include="src\utils\sf_events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\renderer.cpp">
+    <ClCompile Include="src\engine\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\logic\DungeonModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -104,7 +107,7 @@
     <ClInclude Include="src\game\logic\GameSimulation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\datatypes\LogicCommands.hpp">
+    <ClInclude Include="src\game\datatypes\LogicCommands.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\datatypes\IGameStage.hpp">
@@ -155,7 +158,25 @@
     <ClInclude Include="src\utils\sf_events.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\renderer.hpp">
+    <ClInclude Include="src\engine\Renderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\keybinds.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\logic\DungeonModel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\datatypes\DungeonSnapshot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\datatypes\GameSnapshot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\datatypes\DungeonLayout.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\datatypes\SharedGameState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

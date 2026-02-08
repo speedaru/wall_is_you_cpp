@@ -1,14 +1,18 @@
 #pragma once
 #include "pch.h"
-#include "IView.hpp"
+#include "engine/datatypes/IView.hpp"
 
 struct UICommand {
 	enum Type {
+		// generic stuff
 		PushView,
 		PopView,
-		ExitGame
-	} type;
-	std::unique_ptr<IView> view{ nullptr };
+		ExitGame,
+
+		// more specific stuff
+		PushDungeonView
+	} type{};
+	std::optional<std::unique_ptr<IView>> view{ std::nullopt };
 
 	UICommand() = default;
 
@@ -16,9 +20,4 @@ struct UICommand {
 		this->type = type;
 		this->view = std::move(view);
 	}
-
-	//UICommand(UICommand&& other) noexcept {
-	//	type = type;
-	//	view = std::move(other.view);
-	//}
 };

@@ -3,11 +3,11 @@
 
 
 enum class AnchorType {
-	TOP_LEFT,
-	TOP_RIGHT,
-	BOTTOM_LEFT,
-	BOTTOM_RIGHT,
-	CENTER
+	TopLeft,
+	TopRight,
+	BottomLeft,
+	BottomRight,
+	Center
 };
 
 namespace sp {

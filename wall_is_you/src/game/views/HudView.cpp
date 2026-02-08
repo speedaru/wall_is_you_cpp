@@ -39,6 +39,6 @@ void HudView::CreateWidgets() {
 	roundIndicator.text = std::make_unique<sp::ui::Text>();
 	roundIndicator.text->SetFont(font, 28, sf::Color::White);
 	roundIndicator.text->SetText(std::format("round: {}", 1));
-	roundIndicator.text->SetPos(12.f, 12.f, AnchorType::TOP_LEFT);
+	roundIndicator.text->SetPos(12.f, 12.f, AnchorType::TopLeft);
 	m_hudElements.push_back(std::move(roundIndicator));
 }

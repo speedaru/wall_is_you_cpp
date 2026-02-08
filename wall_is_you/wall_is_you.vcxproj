@@ -94,7 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\renderer.cpp" />
+    <ClCompile Include="src\engine\Renderer.cpp" />
     <ClCompile Include="src\engine\ui\text.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -102,7 +102,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\engine\AssetManager.cpp" />
-    <ClCompile Include="src\engine\datatypes\UICommands.hpp" />
+    <ClCompile Include="src\game\datatypes\UICommands.hpp" />
     <ClCompile Include="src\engine\rendering\SpImage.hpp" />
     <ClCompile Include="src\engine\ServiceLocator.hpp" />
     <ClCompile Include="src\engine\ui\button.cpp" />
@@ -111,6 +111,7 @@
     <ClCompile Include="src\game\assets.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\Game.hpp" />
+    <ClCompile Include="src\game\logic\DungeonModel.cpp" />
     <ClCompile Include="src\game\logic\GameSimulation.cpp" />
     <ClCompile Include="src\game\logic\stages\RoundEndStage.hpp" />
     <ClCompile Include="src\game\views\DungeonView.cpp" />
@@ -123,13 +124,15 @@
     <None Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\renderer.hpp" />
+    <ClInclude Include="src\engine\Renderer.hpp" />
     <ClInclude Include="src\engine\ui\text.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\engine\AssetManager.hpp" />
     <ClInclude Include="src\engine\datatypes\IGameStage.hpp" />
     <ClInclude Include="src\engine\datatypes\IView.hpp" />
-    <ClInclude Include="src\engine\datatypes\LogicCommands.hpp" />
+    <ClInclude Include="src\game\datatypes\DungeonLayout.hpp" />
+    <ClInclude Include="src\game\datatypes\GameSnapshot.hpp" />
+    <ClInclude Include="src\game\datatypes\LogicCommands.hpp" />
     <ClInclude Include="src\engine\ThreadSafeQueue.hpp" />
     <ClInclude Include="src\engine\ui\base.hpp" />
     <ClInclude Include="src\engine\ui\button.hpp" />
@@ -138,6 +141,10 @@
     <ClInclude Include="src\engine\WindowManager.hpp" />
     <ClInclude Include="src\game\assets.hpp" />
     <ClInclude Include="src\game\constants.hpp" />
+    <ClInclude Include="src\game\datatypes\DungeonSnapshot.hpp" />
+    <ClInclude Include="src\game\datatypes\SharedGameState.hpp" />
+    <ClInclude Include="src\game\keybinds.hpp" />
+    <ClInclude Include="src\game\logic\DungeonModel.hpp" />
     <ClInclude Include="src\game\logic\GameSimulation.hpp" />
     <ClInclude Include="src\game\logic\StageFactory.hpp" />
     <ClInclude Include="src\game\logic\stages\AdventurerStage.hpp" />

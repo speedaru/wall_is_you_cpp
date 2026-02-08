@@ -1,7 +1,5 @@
 #pragma once
 #include "pch.h"
-#include "datatypes/UICommands.hpp"
-#include "datatypes/LogicCommands.hpp"
 
 #include "ThreadSafeQueue.hpp"
 
@@ -10,19 +8,19 @@
 class WindowManager;
 class AssetManager; 
 
-typedef ThreadSafeQueue<UICommand> UICommandQueue;
-typedef ThreadSafeQueue<LogicCommand> LogicCommandQueue;
-
 class ServiceLocator {
 public:
     // Static accessors for the global services
     static WindowManager& GetWindowManager() { return *m_windowManager; }
-    static UICommandQueue& GetUIQueue() { return *m_uiQueue; }
-    static LogicCommandQueue& GetLogicQueue() { return *m_logicQueue; }
+    template <typename T>
+    static ThreadSafeQueue<T>& GetUIQueue() { return *(ThreadSafeQueue<T>*)m_uiQueue; }
+    template <typename T>
+    static ThreadSafeQueue<T>& GetLogicQueue() { return *(ThreadSafeQueue<T>*)m_logicQueue; }
     static AssetManager& GetAssetManager() { return *m_assetManager; }
     
     // Initialization
-    static void Init(WindowManager* wm, UICommandQueue* uiQueue, LogicCommandQueue* logicQueue, AssetManager* assetManager) {
+    template <typename UI_CMD, typename LOGIC_CMD>
+    static void Init(WindowManager* wm, ThreadSafeQueue<UI_CMD>* uiQueue, ThreadSafeQueue<LOGIC_CMD>* logicQueue, AssetManager* assetManager) {
         m_windowManager = wm;
         m_uiQueue = uiQueue;
         m_logicQueue = logicQueue;
@@ -31,7 +29,7 @@ public:
 
 private:
     static inline WindowManager* m_windowManager = nullptr;
-    static inline UICommandQueue* m_uiQueue = nullptr;
-    static inline LogicCommandQueue* m_logicQueue = nullptr;
+    static inline void* m_uiQueue = nullptr;
+    static inline void* m_logicQueue = nullptr;
     static inline AssetManager* m_assetManager = nullptr;
 };
