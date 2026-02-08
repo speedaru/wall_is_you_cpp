@@ -8,6 +8,7 @@
 #include "game/views/DungeonView.hpp"
 
 #include "utils/logging.hpp"
+#include "utils/sf_events.hpp"
 
 
 StartMenuView::StartMenuView() {
@@ -16,6 +17,12 @@ StartMenuView::StartMenuView() {
 }
 
 bool StartMenuView::HandleEvent(const sf::RenderWindow& window, const sf::Event& event) {
+    if (sp::utils::IsKeyPressed(event, keybinds::EXIT_KEY)) {
+		UICommand uiCmd;
+		uiCmd.type = UICommand::Type::ExitGame;
+		ServiceLocator::GetUIQueue().Push(std::move(uiCmd));
+    }
+
   //  if (handled |= m_playButton.IsClicked(window, event)) {
 		//UICommand loadDungeonView;
 		//loadDungeonView.type = UICommand::Type::PushView;

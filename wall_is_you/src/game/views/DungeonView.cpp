@@ -13,7 +13,7 @@
 bool DungeonView::HandleEvent(const sf::RenderWindow& window, const sf::Event& event) {
 	m_hudView->HandleEvent(window, event);
 
-	if (sp::utils::IsKeyPressed(event, sf::Keyboard::Key::Escape)) {
+	if (sp::utils::IsKeyPressed(event, keybinds::EXIT_KEY)) {
 		UICommand cmd;
 		cmd.type = UICommand::Type::PopView;
 		ServiceLocator::GetUIQueue().Push(std::move(cmd));
