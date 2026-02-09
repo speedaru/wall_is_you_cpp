@@ -33,8 +33,6 @@ void DungeonView::Update(float dt) {
 }
 
 void DungeonView::Render(sf::RenderWindow& window) {
-	m_hudView->Render(window);
-
 	// get new game snapshot to render
     m_sharedGameState->PullGameSnap(m_gameSnap);
     DungeonSnapshot& dungeonSnap = m_gameSnap.dungeonSnap;
@@ -55,6 +53,9 @@ void DungeonView::Render(sf::RenderWindow& window) {
 		RenderSpriteInRoom(window, m_tileBg, TILE_SCALED_SIZE, roomPos);
 		RenderSpriteInRoom(window, m_tileSet, TILE_SCALED_SIZE, roomPos);
     }
+
+	// render hud on top
+	m_hudView->Render(window);
 }
 
 
