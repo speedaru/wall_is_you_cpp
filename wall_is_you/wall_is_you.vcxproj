@@ -59,11 +59,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;__PROJECT_DIR__=R"($(ProjectDir))"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;__PROJECT_DIR__=R"($(ProjectDir))";_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -78,11 +79,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;__PROJECT_DIR__=R"($(ProjectDir))"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;__PROJECT_DIR__=R"($(ProjectDir))";_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -112,11 +114,13 @@
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\Game.hpp" />
     <ClCompile Include="src\game\logic\DungeonModel.cpp" />
+    <ClCompile Include="src\game\logic\dungeon_loader.cpp" />
     <ClCompile Include="src\game\logic\GameSimulation.cpp" />
     <ClCompile Include="src\game\logic\stages\RoundEndStage.hpp" />
     <ClCompile Include="src\game\views\DungeonView.cpp" />
     <ClCompile Include="src\game\views\HudView.cpp" />
     <ClCompile Include="src\game\views\StartMenuView.cpp" />
+    <ClCompile Include="src\utils\io.cpp" />
     <ClCompile Include="src\utils\sf_events.cpp" />
     <ClCompile Include="src\utils\string.cpp" />
   </ItemGroup>
@@ -145,6 +149,7 @@
     <ClInclude Include="src\game\datatypes\SharedGameState.hpp" />
     <ClInclude Include="src\game\keybinds.hpp" />
     <ClInclude Include="src\game\logic\DungeonModel.hpp" />
+    <ClInclude Include="src\game\logic\dungeon_loader.hpp" />
     <ClInclude Include="src\game\logic\GameSimulation.hpp" />
     <ClInclude Include="src\game\logic\StageFactory.hpp" />
     <ClInclude Include="src\game\logic\stages\AdventurerStage.hpp" />
@@ -152,6 +157,8 @@
     <ClInclude Include="src\game\views\DungeonView.hpp" />
     <ClInclude Include="src\game\views\HudView.hpp" />
     <ClInclude Include="src\game\views\StartMenuView.hpp" />
+    <ClInclude Include="src\utils\macros.hpp" />
+    <ClInclude Include="src\utils\io.hpp" />
     <ClInclude Include="src\utils\logging.hpp" />
     <ClInclude Include="src\utils\sf_events.hpp" />
     <ClInclude Include="src\utils\string.hpp" />

@@ -4,15 +4,17 @@
 #include "constants.hpp"
 
 
-std::unordered_map<AssetId, fs::path> sprites = {
-	{ AssetId::START_BACKGROUND, ASSETS_PATH / "start_background.png" },
+std::unordered_map<AssetId, fs::path> textures = {
+	{ AssetId::StartBackground, ASSETS_PATH / "start_background.png" },
+	{ AssetId::BlockTileset, ASSETS_PATH / "blocks_no_bg.png" },
+	{ AssetId::BlockBackground, ASSETS_PATH / "block_background.png" },
 };
 
 std::unordered_map<AssetId, fs::path> fonts = {
-	{ AssetId::FONT_QUICKSAND, FONTS_PATH / "quicksand-SemiBold.ttf" },
-	{ AssetId::FONT_OPEN_SANS, FONTS_PATH / "OpenSans-SemiBold.ttf" },
-	{ AssetId::FONT_RUBIK, FONTS_PATH / "Rubik-SemiBold.ttf" },
-	{ AssetId::FONT_OUTFIT, FONTS_PATH / "Outfit-Regular.ttf" },
+	{ AssetId::FontQuicksand, FONTS_PATH / "quicksand-SemiBold.ttf" },
+	{ AssetId::FontOpenSans, FONTS_PATH / "OpenSans-SemiBold.ttf" },
+	{ AssetId::FontRubik, FONTS_PATH / "Rubik-SemiBold.ttf" },
+	{ AssetId::FontOutfit, FONTS_PATH / "Outfit-Regular.ttf" },
 };
 
 
@@ -25,6 +27,6 @@ void assets::LoadAssets(AssetManager& assetManager) {
 		}
 	};
 
-	addAssets(sprites, &AssetManager::AddTexture);
+	addAssets(textures, &AssetManager::AddTexture);
 	addAssets(fonts, &AssetManager::AddFont);
 }

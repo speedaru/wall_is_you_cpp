@@ -8,7 +8,7 @@ public:
 
 	void GetSnapshot(DungeonSnapshot* outSnap) const;
 	
-	void SetDimensions();
+	void SetLayout(const DungeonLayout& layout);
 
 private:
 	DungeonLayout m_layout;

@@ -6,12 +6,20 @@
 
 enum class AssetId {
 	// fonts
-	FONT_QUICKSAND,
-	FONT_OPEN_SANS,
-	FONT_RUBIK,
-	FONT_OUTFIT,
+	FontQuicksand,
+	FontOpenSans,
+	FontRubik,
+	FontOutfit,
 
-	START_BACKGROUND,
+	StartBackground,
+	BlockTileset,
+	BlockBackground,
+	//BlockSolid,
+	//BlockSingle,
+	//BlockDoubleAdj,
+	//BlockDoubleOpp,
+	//BlockTriple,
+	//BlockQuand
 };
 
 namespace assets {

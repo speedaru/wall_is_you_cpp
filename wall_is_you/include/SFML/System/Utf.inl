@@ -156,7 +156,7 @@ Out Utf<8>::encode(char32_t input, Out output, std::uint8_t replacement)
 
 ////////////////////////////////////////////////////////////
 template <typename In>
-In Utf<8>::next(In begin, In end)
+In Utf<8>::Next(In begin, In end)
 {
     char32_t codepoint = 0;
     return decode(begin, end, codepoint);
@@ -170,7 +170,7 @@ std::size_t Utf<8>::count(In begin, In end)
     std::size_t length = 0;
     while (begin != end)
     {
-        begin = next(begin, end);
+        begin = Next(begin, end);
         ++length;
     }
 
@@ -383,7 +383,7 @@ Out Utf<16>::encode(char32_t input, Out output, char16_t replacement)
 
 ////////////////////////////////////////////////////////////
 template <typename In>
-In Utf<16>::next(In begin, In end)
+In Utf<16>::Next(In begin, In end)
 {
     char32_t codepoint = 0;
     return decode(begin, end, codepoint);
@@ -397,7 +397,7 @@ std::size_t Utf<16>::count(In begin, In end)
     std::size_t length = 0;
     while (begin != end)
     {
-        begin = next(begin, end);
+        begin = Next(begin, end);
         ++length;
     }
 
@@ -547,7 +547,7 @@ Out Utf<32>::encode(char32_t input, Out output, char32_t /*replacement*/)
 
 ////////////////////////////////////////////////////////////
 template <typename In>
-In Utf<32>::next(In begin, In /*end*/)
+In Utf<32>::Next(In begin, In /*end*/)
 {
     return ++begin;
 }

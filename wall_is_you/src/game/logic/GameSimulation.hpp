@@ -31,7 +31,7 @@ private:
     void UpdateGameSnapshot();
 
 private: // logic commands
-    void LoadDungeon(const LoadDungeonData& data);
+    void HandleLoadDungeon(const LoadDungeonData& data);
 
 private:
     // thread stuff

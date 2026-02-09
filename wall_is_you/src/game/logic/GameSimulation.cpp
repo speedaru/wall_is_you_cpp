@@ -6,11 +6,13 @@
 #include "engine/ThreadSafeQueue.hpp"
 #include "engine/WindowManager.hpp"
 
-#include "StageFactory.hpp"
 #include "game/datatypes/LogicCommands.hpp"
 #include "game/datatypes/SharedGameState.hpp"
+#include "StageFactory.hpp"
+#include "dungeon_loader.hpp"
 
 #include "utils/logging.hpp"
+#include "utils/io.hpp"
 
 
 void GameSimulation::Start() {
@@ -60,8 +62,8 @@ void GameSimulation::HandleLogicCommands() {
     LogicCommand cmd;
     while (logicQueue.TryPop(cmd)) {
         switch (cmd.type) {
-        case LogicCommand::Type::LoadDungeon:
-            LoadDungeon(std::get<LoadDungeonData>(cmd.payload));
+        case LogicCommand::Type::HandleLoadDungeon:
+            HandleLoadDungeon(std::get<LoadDungeonData>(cmd.payload));
             break;
         case LogicCommand::Type::EntityInteraction:
             break;  
@@ -110,18 +112,14 @@ void GameSimulation::UpdateGameSnapshot() {
 
 #pragma region logic_commands
 
-void GameSimulation::LoadDungeon(const LoadDungeonData& data) {
+void GameSimulation::HandleLoadDungeon(const LoadDungeonData& data) {
 	// create stages
 	m_currentStage = StageFactory::CreateDungeonLoop();
 
     // load dungeon layout
-    m_dungeon.SetDimensions();
-    DungeonSnapshot dungeonSnap;
-    m_dungeon.GetSnapshot(&dungeonSnap);
-    LOG_D("set dimensions to: %ux%u\n", dungeonSnap.layout.width, dungeonSnap.layout.height);
+    dungeon_loader::LoadFromFile(data.path, m_dungeon);
 
     // load entites
-
     LOG_D("loaded dungeon: %s\n", data.path.string().c_str());
 }
 

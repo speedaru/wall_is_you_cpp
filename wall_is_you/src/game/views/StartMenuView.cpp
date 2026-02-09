@@ -39,7 +39,7 @@ bool StartMenuView::HandleEvent(const sf::RenderWindow& window, const sf::Event&
             ServiceLocator::GetUIQueue<UICommand>().Push(std::move(uiCmd));
 
             LogicCommand logicCmd;
-            logicCmd.type = LogicCommand::Type::LoadDungeon;
+            logicCmd.type = LogicCommand::Type::HandleLoadDungeon;
             logicCmd.payload = LoadDungeonData(dungeonFile);
             ServiceLocator::GetLogicQueue<LogicCommand>().Push(std::move(logicCmd));
 
@@ -84,15 +84,15 @@ static void GetDungeons(std::vector<fs::path>& outDungeonFiles) {
 void StartMenuView::CreateAssets() {
     AssetManager& assetManger = ServiceLocator::GetAssetManager();
 
-    auto backgroundTexture = assetManger.GetAsset<sf::Texture>(AssetId::START_BACKGROUND);
+    auto backgroundTexture = assetManger.GetAsset<sf::Texture>(AssetId::StartBackground);
     m_background = std::make_unique<sf::Sprite>(*backgroundTexture);
 }
 
 void StartMenuView::CreateWidgets() {
     AssetManager& assetManger = ServiceLocator::GetAssetManager();
 
-    auto quicksand = assetManger.GetAsset<sf::Font>(AssetId::FONT_QUICKSAND);
-    auto outfit = assetManger.GetAsset<sf::Font>(AssetId::FONT_OUTFIT);
+    auto quicksand = assetManger.GetAsset<sf::Font>(AssetId::FontQuicksand);
+    auto outfit = assetManger.GetAsset<sf::Font>(AssetId::FontOutfit);
 
     // play button
     m_playButton.SetBackgroundColor(sf::Color::Red);

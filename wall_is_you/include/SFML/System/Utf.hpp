@@ -101,7 +101,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     template <typename In>
-    static In next(In begin, In end);
+    static In Next(In begin, In end);
 
     ////////////////////////////////////////////////////////////
     /// \brief Count the number of characters of a UTF-8 sequence
@@ -307,7 +307,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     template <typename In>
-    static In next(In begin, In end);
+    static In Next(In begin, In end);
 
     ////////////////////////////////////////////////////////////
     /// \brief Count the number of characters of a UTF-16 sequence
@@ -515,7 +515,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     template <typename In>
-    static In next(In begin, In end);
+    static In Next(In begin, In end);
 
     ////////////////////////////////////////////////////////////
     /// \brief Count the number of characters of a UTF-32 sequence

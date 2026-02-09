@@ -32,7 +32,7 @@ Game::Game(sf::Vector2u windowSize, const std::string& title)
 }
 
 Game::~Game() {
-    m_gameSimulation.Stop();
+	m_gameSimulation.Stop();
 }
 
 void Game::DoFrame() {

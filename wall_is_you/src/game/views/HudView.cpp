@@ -31,7 +31,7 @@ void HudView::Render(sf::RenderWindow& window) {
 
 void HudView::CreateWidgets() {
 	AssetManager assetManager = ServiceLocator::GetAssetManager();
-	auto font = assetManager.GetAsset<sf::Font>(AssetId::FONT_OUTFIT);
+	auto font = assetManager.GetAsset<sf::Font>(AssetId::FontOutfit);
 
 	// round indicator
 	HudElement roundIndicator;

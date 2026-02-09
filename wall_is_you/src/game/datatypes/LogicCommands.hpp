@@ -25,7 +25,7 @@ using LogicPayload = std::variant<std::monostate,
 
 struct LogicCommand {
 	enum class Type {
-		LoadDungeon,
+		HandleLoadDungeon,
 		EntityInteraction,
 		SettingsChange,
 	} type;
