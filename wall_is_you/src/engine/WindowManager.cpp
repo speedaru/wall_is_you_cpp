@@ -2,15 +2,15 @@
 #include "WindowManager.hpp"
 
 
-void WindowManager::Push(std::unique_ptr<IView> view) {
+void sp::WindowManager::Push(std::unique_ptr<IView> view) {
 	m_pendingPush.push_back(std::move(view));
 }
 
-void WindowManager::Pop() {
+void sp::WindowManager::Pop() {
 	m_popCount++;
 }
 
-void WindowManager::ProcessChanges() {
+void sp::WindowManager::ProcessChanges() {
 	assert(m_popCount <= m_viewStack.size());
 
 	// handle pops
@@ -31,19 +31,19 @@ void WindowManager::ProcessChanges() {
 	m_popCount = 0;
 }
 
-void WindowManager::HandleEvent(const sf::RenderWindow& window, const sf::Event& event) {
+void sp::WindowManager::HandleEvent(const sf::RenderWindow& window, const sf::Event& event) {
 	if (!m_viewStack.empty()) {
 		m_viewStack.back()->HandleEvent(window, event);
 	}
 }
 
-void WindowManager::Update(float dt) {
+void sp::WindowManager::Update(float dt) {
 	if (!m_viewStack.empty()) {
 		m_viewStack.back()->Update(dt);
 	}
 }
 
-void WindowManager::Render(sf::RenderWindow& window) {
+void sp::WindowManager::Render(sf::RenderWindow& window) {
 	// must always at least have 1 view
 	assert(m_viewStack.size() > 0);
 

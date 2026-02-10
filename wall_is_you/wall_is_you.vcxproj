@@ -111,6 +111,7 @@
     <ClCompile Include="src\engine\ui\geom.cpp" />
     <ClCompile Include="src\engine\WindowManager.cpp" />
     <ClCompile Include="src\game\assets.cpp" />
+    <ClCompile Include="src\game\EntitySystem.cpp" />
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\Game.hpp" />
     <ClCompile Include="src\game\logic\DungeonModel.cpp" />
@@ -128,6 +129,8 @@
     <None Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\datatypes\Entity.hpp" />
+    <ClInclude Include="src\game\datatypes\DungeonEntity.hpp" />
     <ClInclude Include="src\engine\Renderer.hpp" />
     <ClInclude Include="src\engine\ui\text.hpp" />
     <ClInclude Include="resource.h" />
@@ -135,6 +138,8 @@
     <ClInclude Include="src\engine\datatypes\IGameStage.hpp" />
     <ClInclude Include="src\engine\datatypes\IView.hpp" />
     <ClInclude Include="src\game\datatypes\DungeonLayout.hpp" />
+    <ClInclude Include="src\game\datatypes\EntitySnapshot.hpp" />
+    <ClInclude Include="src\game\datatypes\EntityTypes.hpp" />
     <ClInclude Include="src\game\datatypes\GameSnapshot.hpp" />
     <ClInclude Include="src\game\datatypes\LogicCommands.hpp" />
     <ClInclude Include="src\engine\ThreadSafeQueue.hpp" />
@@ -147,6 +152,7 @@
     <ClInclude Include="src\game\constants.hpp" />
     <ClInclude Include="src\game\datatypes\DungeonSnapshot.hpp" />
     <ClInclude Include="src\game\datatypes\SharedGameState.hpp" />
+    <ClInclude Include="src\game\EntitySystem.hpp" />
     <ClInclude Include="src\game\keybinds.hpp" />
     <ClInclude Include="src\game\logic\DungeonModel.hpp" />
     <ClInclude Include="src\game\logic\dungeon_loader.hpp" />

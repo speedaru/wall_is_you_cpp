@@ -23,5 +23,5 @@ enum class AssetId {
 };
 
 namespace assets {
-	void LoadAssets(AssetManager& assetManager);
+	void LoadAssets(sp::AssetManager& assetManager);
 }

@@ -2,24 +2,27 @@
 #include "pch.h"
 #include "datatypes/IView.hpp"
 
-class WindowManager {
-public:
-    void Push(std::unique_ptr<IView> view);
 
-    void Pop();
+namespace sp {
+	class WindowManager {
+	public:
+		void Push(std::unique_ptr<IView> view);
 
-    void ProcessChanges();
+		void Pop();
 
-    void HandleEvent(const sf::RenderWindow& window, const sf::Event& event);
+		void ProcessChanges();
 
-    void Update(float dt);
+		void HandleEvent(const sf::RenderWindow& window, const sf::Event& event);
 
-    void Render(sf::RenderWindow& window);
+		void Update(float dt);
 
-	inline bool IsEmpty() const { return m_viewStack.empty(); }
+		void Render(sf::RenderWindow& window);
 
-private:
-    std::vector<std::unique_ptr<IView>> m_viewStack;
-    std::vector<std::unique_ptr<IView>> m_pendingPush;
-    int m_popCount{ 0 };
-};
+		inline bool IsEmpty() const { return m_viewStack.empty(); }
+
+	private:
+		std::vector<std::unique_ptr<IView>> m_viewStack;
+		std::vector<std::unique_ptr<IView>> m_pendingPush;
+		int m_popCount{ 0 };
+	};
+}

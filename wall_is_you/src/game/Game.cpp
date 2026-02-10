@@ -26,7 +26,7 @@ Game::Game(sf::Vector2u windowSize, const std::string& title)
 	m_window->setIcon(icon);
 
     // Initial Window is Start Menu
-    ServiceLocator::GetWindowManager().Push(std::make_unique<StartMenuView>());
+    sp::ServiceLocator::GetWindowManager().Push(std::make_unique<StartMenuView>());
 
     m_gameSimulation.Start();
 }
@@ -42,16 +42,16 @@ void Game::DoFrame() {
 	HandleUICommands();
 
 	// Process pushes/pops requested by Logic thread or UI
-	WindowManager& winManager = ServiceLocator::GetWindowManager();
+	sp::WindowManager& winManager = sp::ServiceLocator::GetWindowManager();
 	winManager.ProcessChanges();
 }
 
 void Game::RenderFrame() {
-	m_renderer.Render(*m_window, m_clock);
+	sp::renderer::Render(*m_window, m_clock);
 }
 
 void Game::HandleEvent() {
-	WindowManager& winManager = ServiceLocator::GetWindowManager();
+	sp::WindowManager& winManager = sp::ServiceLocator::GetWindowManager();
 
 	std::optional<sf::Event> event = m_window->pollEvent();
 	while (event.has_value()) {
@@ -65,8 +65,8 @@ void Game::HandleEvent() {
 }
 
 void Game::HandleUICommands() {
-    auto& uiQueue = ServiceLocator::GetUIQueue<UICommand>();
-    WindowManager& windowManager = ServiceLocator::GetWindowManager();
+    auto& uiQueue = sp::ServiceLocator::GetUIQueue<UICommand>();
+    sp::WindowManager& windowManager = sp::ServiceLocator::GetWindowManager();
 
 	auto pushView = [&](UICommand& cmd) {
 		if (!cmd.view.has_value()) {

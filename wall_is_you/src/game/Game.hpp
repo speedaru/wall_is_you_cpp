@@ -34,5 +34,4 @@ private:
 
 	// owned classes
     GameSimulation m_gameSimulation;
-	Renderer m_renderer;
 };

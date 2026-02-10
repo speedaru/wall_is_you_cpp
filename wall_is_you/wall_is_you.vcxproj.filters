@@ -87,6 +87,9 @@
     <ClCompile Include="src\utils\io.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\EntitySystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="pch.h" />
@@ -192,6 +195,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\macros.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\datatypes\DungeonEntity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\datatypes\Entity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\datatypes\EntityTypes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\EntitySystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\datatypes\EntitySnapshot.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

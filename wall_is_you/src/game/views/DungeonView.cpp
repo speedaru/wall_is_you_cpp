@@ -22,7 +22,7 @@ bool DungeonView::HandleEvent(const sf::RenderWindow& window, const sf::Event& e
 	if (sp::utils::IsKeyPressed(event, keybinds::EXIT_KEY)) {
 		UICommand cmd;
 		cmd.type = UICommand::Type::PopView;
-		ServiceLocator::GetUIQueue<UICommand>().Push(std::move(cmd));
+		sp::ServiceLocator::GetUIQueue<UICommand>().Push(std::move(cmd));
 	}
 
 	return false;
@@ -70,7 +70,7 @@ void DungeonView::RenderSpriteInRoom(sf::RenderWindow& window, std::unique_ptr<s
 }
 
 void DungeonView::InitSprites() {
-    AssetManager& assetManager = ServiceLocator::GetAssetManager();
+    sp::AssetManager& assetManager = sp::ServiceLocator::GetAssetManager();
 
 	auto loadSprite = [&](AssetId id, std::unique_ptr<sf::Sprite>& sprite) {
 		if (!sprite) {

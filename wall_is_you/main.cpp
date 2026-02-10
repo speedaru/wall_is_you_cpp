@@ -14,12 +14,12 @@
 
 
 int main(int argc, char** argv) {
-	WindowManager winManager;
-    ThreadSafeQueue<UICommand> uiQueue;
-    ThreadSafeQueue<LogicCommand> logicQueue;
-    AssetManager assetManager;
+	sp::WindowManager winManager;
+    sp::ThreadSafeQueue<UICommand> uiQueue;
+    sp::ThreadSafeQueue<LogicCommand> logicQueue;
+    sp::AssetManager assetManager;
 
-    ServiceLocator::Init(&winManager, &uiQueue, &logicQueue, &assetManager);
+    sp::ServiceLocator::Init(&winManager, &uiQueue, &logicQueue, &assetManager);
 
     // load assets
     assets::LoadAssets(assetManager);

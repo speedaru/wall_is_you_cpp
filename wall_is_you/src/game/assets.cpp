@@ -18,8 +18,8 @@ std::unordered_map<AssetId, fs::path> fonts = {
 };
 
 
-void assets::LoadAssets(AssetManager& assetManager) {
-	using Callback_t = void (AssetManager::*)(AssetId, const fs::path&);
+void assets::LoadAssets(sp::AssetManager& assetManager) {
+	using Callback_t = void (sp::AssetManager::*)(AssetId, const fs::path&);
 	
 	auto addAssets = [&](const std::unordered_map<AssetId, fs::path>& assetMap, Callback_t callback) {
 		for (const auto& [key, val] : assetMap) {
@@ -27,6 +27,6 @@ void assets::LoadAssets(AssetManager& assetManager) {
 		}
 	};
 
-	addAssets(textures, &AssetManager::AddTexture);
-	addAssets(fonts, &AssetManager::AddFont);
+	addAssets(textures, &sp::AssetManager::AddTexture);
+	addAssets(fonts, &sp::AssetManager::AddFont);
 }

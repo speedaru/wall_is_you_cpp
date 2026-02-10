@@ -57,7 +57,7 @@ void GameSimulation::Run() {
 
 
 void GameSimulation::HandleLogicCommands() {
-    auto& logicQueue = ServiceLocator::GetLogicQueue<LogicCommand>();
+    auto& logicQueue = sp::ServiceLocator::GetLogicQueue<LogicCommand>();
 
     LogicCommand cmd;
     while (logicQueue.TryPop(cmd)) {

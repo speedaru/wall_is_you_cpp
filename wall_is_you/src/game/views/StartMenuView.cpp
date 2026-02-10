@@ -21,7 +21,7 @@ bool StartMenuView::HandleEvent(const sf::RenderWindow& window, const sf::Event&
     if (sp::utils::IsKeyPressed(event, keybinds::EXIT_KEY)) {
 		UICommand uiCmd;
 		uiCmd.type = UICommand::Type::ExitGame;
-		ServiceLocator::GetUIQueue<UICommand>().Push(std::move(uiCmd));
+		sp::ServiceLocator::GetUIQueue<UICommand>().Push(std::move(uiCmd));
     }
 
   //  if (handled |= m_playButton.IsClicked(window, event)) {
@@ -36,12 +36,12 @@ bool StartMenuView::HandleEvent(const sf::RenderWindow& window, const sf::Event&
         if (button.IsClicked(window, event)) {
             UICommand uiCmd;
             uiCmd.type = UICommand::Type::PushDungeonView;
-            ServiceLocator::GetUIQueue<UICommand>().Push(std::move(uiCmd));
+            sp::ServiceLocator::GetUIQueue<UICommand>().Push(std::move(uiCmd));
 
             LogicCommand logicCmd;
             logicCmd.type = LogicCommand::Type::HandleLoadDungeon;
             logicCmd.payload = LoadDungeonData(dungeonFile);
-            ServiceLocator::GetLogicQueue<LogicCommand>().Push(std::move(logicCmd));
+            sp::ServiceLocator::GetLogicQueue<LogicCommand>().Push(std::move(logicCmd));
 
 			return true;
         }
@@ -82,14 +82,14 @@ static void GetDungeons(std::vector<fs::path>& outDungeonFiles) {
 
 
 void StartMenuView::CreateAssets() {
-    AssetManager& assetManger = ServiceLocator::GetAssetManager();
+    sp::AssetManager& assetManger = sp::ServiceLocator::GetAssetManager();
 
     auto backgroundTexture = assetManger.GetAsset<sf::Texture>(AssetId::StartBackground);
     m_background = std::make_unique<sf::Sprite>(*backgroundTexture);
 }
 
 void StartMenuView::CreateWidgets() {
-    AssetManager& assetManger = ServiceLocator::GetAssetManager();
+    sp::AssetManager& assetManger = sp::ServiceLocator::GetAssetManager();
 
     auto quicksand = assetManger.GetAsset<sf::Font>(AssetId::FontQuicksand);
     auto outfit = assetManger.GetAsset<sf::Font>(AssetId::FontOutfit);
