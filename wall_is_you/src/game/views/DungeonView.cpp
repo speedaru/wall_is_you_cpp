@@ -35,38 +35,57 @@ void DungeonView::Update(float dt) {
 void DungeonView::Render(sf::RenderWindow& window) {
 	// get new game snapshot to render
     m_sharedGameState->PullGameSnap(m_gameSnap);
+
     DungeonSnapshot& dungeonSnap = m_gameSnap.dungeonSnap;
-    DungeonLayout& layout = dungeonSnap.layout;
 
 	// render dungeon layout
+    DungeonLayout& layout = dungeonSnap.layout;
     for (DungeonLayoutIterator it = layout; !it.Finished(); it++) {
-		DungeonRoom* tileData = *it;
-		DungeonRoomPos roomPos = it.GetRoomPos();
-
-		// crop tilset to current tile
-		m_tileSet->setTextureRect(GetTextureRect(tileData->type));
-
-		// rotate tile
-		m_tileSet->setRotation(sf::degrees(tileData->rotations * 90.f));
-
-		// render background + tile
-		RenderSpriteInRoom(window, m_tileBg, TILE_SCALED_SIZE, roomPos);
-		RenderSpriteInRoom(window, m_tileSet, TILE_SCALED_SIZE, roomPos);
+		RenderRoom(window, *it, it.GetRoomPos());
     }
+
+	// render entities
+	EntitySystemSnapshot& entitiesSnap = dungeonSnap.entitySystem;
+	for (const auto& entitySnap : entitiesSnap) {
+		RenderEntity(window, entitySnap);
+	}
 
 	// render hud on top
 	m_hudView->Render(window);
 }
 
 
-void DungeonView::RenderSpriteInRoom(sf::RenderWindow& window, std::unique_ptr<sf::Sprite>& sprite, sf::Vector2f spriteSize, DungeonRoomPos roomPos) {
-	sprite->setScale(sf::Vector2f(SCALE_FACTOR, SCALE_FACTOR));
+void DungeonView::RenderSpriteInRoom(sf::RenderWindow& window, std::unique_ptr<sf::Sprite>& sprite, sf::Vector2f targetSpriteSize, DungeonRoomPos roomPos) {
+	sf::Vector2i textureSize = sprite->getTextureRect().size;
+	sprite->setScale(sf::Vector2f(targetSpriteSize.x / textureSize.x, targetSpriteSize.y / textureSize.y));
 
-	float posX = (roomPos.col * spriteSize.x) + (spriteSize.x / 2.f);
-	float posY = (roomPos.row * spriteSize.y) + (spriteSize.y / 2.f);
+	float posX = (roomPos.col * targetSpriteSize.x) + (targetSpriteSize.x / 2.f);
+	float posY = (roomPos.row * targetSpriteSize.y) + (targetSpriteSize.y / 2.f);
 
 	sprite->setPosition({ posX, posY });
 	window.draw(*sprite);
+}
+
+void DungeonView::RenderRoom(sf::RenderWindow& window, DungeonRoom* tileData, DungeonRoomPos roomPos) {
+	// crop tilset to current tile
+	m_tileSet->setTextureRect(GetTileTextureRect(tileData->type));
+
+	// rotate tile
+	m_tileSet->setRotation(sf::degrees(tileData->rotations * 90.f));
+
+	// render background + tile
+	sf::Vector2f tileScaledSize = s_tileSize * DUNGEON_SCALE_FACTOR;
+	RenderSpriteInRoom(window, m_tileBg, tileScaledSize, roomPos);
+	RenderSpriteInRoom(window, m_tileSet, tileScaledSize, roomPos);
+}
+
+void DungeonView::RenderEntity(sf::RenderWindow& window, const EntitySnapshot& entitySnap) {
+	std::shared_ptr<sf::Texture> texture;
+	sf::Vector2f targetSize;
+	GetEntityTexture(entitySnap.type, texture, targetSize);
+
+	auto entitySprite = std::make_unique<sf::Sprite>(*texture);
+	RenderSpriteInRoom(window, entitySprite, targetSize, entitySnap.roomPos);
 }
 
 void DungeonView::InitSprites() {
@@ -82,21 +101,37 @@ void DungeonView::InitSprites() {
 		}
 	};
 
+	// get tile size
+	s_tileSize = sf::Vector2f(assetManager.GetAsset<sf::Texture>(AssetId::BlockBackground)->getSize());
+
 	loadSprite(AssetId::BlockBackground, m_tileBg);
-	m_tileBg->setOrigin(TILE_CENTER);
+	m_tileBg->setOrigin(s_tileSize / 2.f);
 
 	loadSprite(AssetId::BlockTileset, m_tileSet);
-	m_tileSet->setOrigin(TILE_CENTER);
+	m_tileSet->setOrigin(s_tileSize / 2.f);
 }
 
-sf::IntRect DungeonView::GetTextureRect(DungeonTileType type) {
+sf::IntRect DungeonView::GetTileTextureRect(DungeonTileType type) {
     // We cast the enum to an int to get the index (0 through 5)
     int index = static_cast<int>(type);
     
     // Calculate row and column
     int columns = 3; // Your tileset is 192px wide (192 / 64 = 3)
-    int x = (index % columns) * TILE_SIZE;
-	int y = (index / columns) * TILE_SIZE;
+    int x = (index % columns) * (int)s_tileSize.x;
+	int y = (index / columns) * (int)s_tileSize.y;
 
-    return sf::IntRect({x, y}, {TILE_SIZE, TILE_SIZE});
+    return sf::IntRect({x, y}, sf::Vector2i(s_tileSize));
+}
+
+bool DungeonView::GetEntityTexture(EntityType entityType, std::shared_ptr<sf::Texture>& outTexture, sf::Vector2f& outTextureSize) {
+	sp::AssetManager& assetManager = sp::ServiceLocator::GetAssetManager();
+
+	switch (entityType) {
+	case EntityType::Adventurer:
+		outTexture = assetManager.GetAsset<sf::Texture>(AssetId::Adventurer);
+		outTextureSize = s_tileSize * 0.5f * DUNGEON_SCALE_FACTOR;
+		return true;
+	default:
+		return false;
+	}
 }

@@ -138,6 +138,7 @@
     <ClInclude Include="src\engine\datatypes\IGameStage.hpp" />
     <ClInclude Include="src\engine\datatypes\IView.hpp" />
     <ClInclude Include="src\game\datatypes\DungeonLayout.hpp" />
+    <ClInclude Include="src\game\datatypes\entities\Adventurer.hpp" />
     <ClInclude Include="src\game\datatypes\EntitySnapshot.hpp" />
     <ClInclude Include="src\game\datatypes\EntityTypes.hpp" />
     <ClInclude Include="src\game\datatypes\GameSnapshot.hpp" />

@@ -9,8 +9,18 @@
 
 class DungeonEntity : public sp::Entity {
 public:
+	//DungeonEntity(sp::EntityId id) : Entity(id) {}
+
 	DungeonEntity(sp::EntityId id, EntityType type, DungeonRoomPos pos)
 		: Entity(id), m_type(type), m_roomPos(pos) {}
+
+	//void SetType(EntityType type) {
+	//	m_type = type;
+	//}
+
+	//void SetRoomPos(DungeonRoomPos pos) {
+	//	m_roomPos = pos;
+	//}
 
 	EntityType GetType() const {
 		return m_type;

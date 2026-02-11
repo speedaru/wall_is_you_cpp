@@ -10,3 +10,7 @@ void DungeonModel::SetLayout(const DungeonLayout& layout) {
 	m_layout = layout;
 }
 
+void DungeonModel::SetEntitySystem(const EntitySystem& entSystem) {
+	m_entitySystem = entSystem;
+}
+

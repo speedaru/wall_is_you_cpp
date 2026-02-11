@@ -9,6 +9,7 @@ public:
 	void GetSnapshot(DungeonSnapshot* outSnap) const;
 	
 	void SetLayout(const DungeonLayout& layout);
+	void SetEntitySystem(const EntitySystem& entSystem);
 
 private:
 	DungeonLayout m_layout;

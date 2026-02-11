@@ -28,15 +28,16 @@ public:
 private:
 	// rendering
 	void RenderSpriteInRoom(sf::RenderWindow& window, std::unique_ptr<sf::Sprite>& sprite, sf::Vector2f spriteSize, DungeonRoomPos roomPos);
+	void RenderRoom(sf::RenderWindow& window, DungeonRoom* tileData, DungeonRoomPos roomPos);
+	void RenderEntity(sf::RenderWindow& window, const EntitySnapshot& entitySnap);
 
 	void InitSprites();
-	sf::IntRect GetTextureRect(DungeonTileType type);
+	sf::IntRect GetTileTextureRect(DungeonTileType type);
+	bool GetEntityTexture(EntityType entityType, std::shared_ptr<sf::Texture>& outTexture, sf::Vector2f& outTextureSize);
 
 private:
-	static inline constexpr int TILE_SIZE = 64;
-	static inline constexpr float SCALE_FACTOR = 2.f;
-	static inline constexpr sf::Vector2f TILE_CENTER = sf::Vector2f(TILE_SIZE / 2.f, TILE_SIZE / 2.f);
-	static inline constexpr sf::Vector2f TILE_SCALED_SIZE = sf::Vector2f(TILE_SIZE * SCALE_FACTOR, TILE_SIZE * SCALE_FACTOR);
+	static inline constexpr float DUNGEON_SCALE_FACTOR = 2.f;
+	static inline sf::Vector2f s_tileSize;
 
 	std::unique_ptr<HudView> m_hudView;
 	std::unique_ptr<SharedGameState>& m_sharedGameState;

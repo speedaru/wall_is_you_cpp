@@ -11,15 +11,13 @@ enum class AssetId {
 	FontRubik,
 	FontOutfit,
 
+	// blocks
 	StartBackground,
 	BlockTileset,
 	BlockBackground,
-	//BlockSolid,
-	//BlockSingle,
-	//BlockDoubleAdj,
-	//BlockDoubleOpp,
-	//BlockTriple,
-	//BlockQuand
+
+	// entities
+	Adventurer
 };
 
 namespace assets {

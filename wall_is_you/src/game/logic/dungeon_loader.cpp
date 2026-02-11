@@ -3,9 +3,11 @@
 #include <fstream>
 #include <codecvt>
 
+#include "game/datatypes/DungeonEntity.hpp"
 #include "DungeonModel.hpp"
 
 #include "utils/logging.hpp"
+#include "utils/io.hpp"
 
 #pragma warning(disable: 4566) // encoding
 
@@ -24,7 +26,6 @@ static const std::unordered_map<char32_t, DungeonRoom> SYMBOL_LOOKUP = {
 };
 
 
-// private funcitons
 // Helper to convert UTF-8 string to UTF-32 string
 static std::u32string ToUTF32(const std::string& str) {
     try {
@@ -35,19 +36,39 @@ static std::u32string ToUTF32(const std::string& str) {
     }
 }
 
+// function decl
+static void ParseGrid(DungeonLayout& layout, std::basic_stringstream<char32_t>& buffer);
+static void ParseTags(EntitySystem& entitySystem, std::basic_stringstream<char32_t>& buffer);
+
 
 void dungeon_loader::LoadFromFile(const fs::path& path, DungeonModel& dungeon) {
-	// 1. Read raw file
-    std::ifstream file(path, std::ios::in | std::ios::binary);
-    if (!file.is_open()) throw std::runtime_error("File not found: " + path.string());
-    
-    std::string rawContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    // read file
+    std::string rawContent = utils::ReadFileStr(path);
     std::u32string u32Content = ToUTF32(rawContent);
-    
-    // 2. Use a U32 stream
-    std::basic_stringstream<char32_t> buffer(u32Content);
-    std::u32string line;
+    std::basic_stringstream<char32_t> buffer(u32Content); // Use a U32 stream
+
     DungeonLayout layout;
+    ParseGrid(layout, buffer);
+
+    EntitySystem entitySystem;
+    ParseTags(entitySystem, buffer);
+
+    // debug
+    printf("tile type:\n");
+    for (size_t i = 0; i < layout.height; i++) {
+        for (size_t j = 0; j < layout.width; j++) {
+            printf("%u ", layout.tiles[i * layout.width + j].type);
+        }
+        printf("\n");
+    }
+
+    dungeon.SetLayout(layout);
+    dungeon.SetEntitySystem(entitySystem);
+}
+
+
+static void ParseGrid(DungeonLayout& layout, std::basic_stringstream<char32_t>& buffer) {
+    std::u32string line;
 
     // Header (Width Height)
     if (std::getline(buffer, line)) {
@@ -60,7 +81,7 @@ void dungeon_loader::LoadFromFile(const fs::path& path, DungeonModel& dungeon) {
 
     layout.tiles.reserve((size_t)layout.width * layout.height);
 
-    // 3. Parse Grid
+    // Parse Grid
     for (uint32_t y = 0; y < layout.height; ++y) {
         if (!std::getline(buffer, line)) break;
         
@@ -79,26 +100,32 @@ void dungeon_loader::LoadFromFile(const fs::path& path, DungeonModel& dungeon) {
             }
         }
     }
+}
 
-    // 4. Parse Tags (E, GR)
+static DungeonEntity ParseAdventurer(EntitySystem& entitySystem, std::istringstream& ss) {
+    DungeonRoomPos roomPos;
+    ss >> roomPos.row;
+    ss >> roomPos.col;
+
+    return DungeonEntity(entitySystem.GetNewEntityId(), EntityType::Adventurer, roomPos);
+}
+
+static void ParseTags(EntitySystem& entitySystem, std::basic_stringstream<char32_t>& buffer) {
+	std::u32string line;
+
     while (std::getline(buffer, line)) {
         if (line.empty()) continue;
         std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> convert;
-        std::stringstream ss(convert.to_bytes(line));
+        std::istringstream ss(convert.to_bytes(line));
         
         std::string tag;
         ss >> tag;
-        // ... Handle tag parsing as before ...
-    }
 
-    // FIXING YOUR DEBUG LOG: i * layout.width + j
-    printf("tile type:\n");
-    for (size_t i = 0; i < layout.height; i++) {
-        for (size_t j = 0; j < layout.width; j++) {
-            printf("%u ", layout.tiles[i * layout.width + j].type);
+        // entity tags
+        if (tag == "A") {
+            entitySystem.AddEntity(ParseAdventurer(entitySystem, ss));
         }
-        printf("\n");
+        else if (tag == "D") {
+        }
     }
-
-    dungeon.SetLayout(layout);
 }
