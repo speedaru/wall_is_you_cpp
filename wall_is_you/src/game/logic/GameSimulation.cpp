@@ -8,7 +8,7 @@
 
 #include "game/datatypes/LogicCommands.hpp"
 #include "game/datatypes/SharedGameState.hpp"
-#include "StageFactory.hpp"
+#include "stage_factory.hpp"
 #include "dungeon_loader.hpp"
 
 #include "utils/logging.hpp"
@@ -30,20 +30,24 @@ void GameSimulation::Run() {
     
     while (m_isRunning) {
         auto startTime = std::chrono::steady_clock::now();
+        bool stateChanged = false;
 
         // handle commands sent from UI
-        HandleLogicCommands();
+        //stateChanged |= HandleLogicCommands();
+        stateChanged |= HandleLogicCommands();
 
         // 2. Run the Logic Phase Controller (Adventurer Turn -> Dragon Turn)
-        if (!m_isPaused) {
-			UpdateStages(dt);
+        if (!m_isPaused && m_dungeon.IsLoaded()) {
+			stateChanged |= UpdateStages(dt);
         }
 
         // 3. Check for Win/Loss;
         //LOG_D("running game logic\n");
 
-        // finally get game snapshot
-        UpdateGameSnapshot();
+        // finally get game snapshot if state changed
+        if (stateChanged) {
+			UpdateGameSnapshot();
+		}
 
         // sleep
         auto endTime = std::chrono::steady_clock::now();
@@ -56,7 +60,8 @@ void GameSimulation::Run() {
 }
 
 
-void GameSimulation::HandleLogicCommands() {
+bool GameSimulation::HandleLogicCommands() {
+    bool modified = false;
     auto& logicQueue = sp::ServiceLocator::GetLogicQueue<LogicCommand>();
 
     LogicCommand cmd;
@@ -64,28 +69,33 @@ void GameSimulation::HandleLogicCommands() {
         switch (cmd.type) {
         case LogicCommand::Type::HandleLoadDungeon:
             HandleLoadDungeon(std::get<LoadDungeonData>(cmd.payload));
+            modified = true;
             break;
         case LogicCommand::Type::EntityInteraction:
             break;  
         }
     }
+
+    // not modified state
+	return modified;
 }
 
-void GameSimulation::UpdateStages(float dt) {
+bool GameSimulation::UpdateStages(float dt) {
+    bool modified = false;
+
     // exit interupt stage before current stage
     if (!m_interruptQueue.empty()) {
         auto& interrupt = m_interruptQueue.front();
-        interrupt->OnUpdate(dt);
+        modified |= interrupt->OnUpdate(dt);
 
         if (interrupt->IsFinished()) {
             interrupt->OnExit();
             m_interruptQueue.pop();
         }
-        return;
     }
 
     if (m_currentStage) {
-        m_currentStage->OnUpdate(dt);
+        modified |= m_currentStage->OnUpdate(dt);
 
         if (m_currentStage->IsFinished()) {
             m_currentStage->OnExit();
@@ -99,6 +109,8 @@ void GameSimulation::UpdateStages(float dt) {
             }
         }
     }
+
+    return modified;
 }
 
 void GameSimulation::UpdateGameSnapshot() {
@@ -114,7 +126,7 @@ void GameSimulation::UpdateGameSnapshot() {
 
 void GameSimulation::HandleLoadDungeon(const LoadDungeonData& data) {
 	// create stages
-	m_currentStage = StageFactory::CreateDungeonLoop();
+	m_currentStage = stage_factory::CreateDungeonLoop(m_dungeon);
 
     // load dungeon layout
     dungeon_loader::LoadFromFile(data.path, m_dungeon);

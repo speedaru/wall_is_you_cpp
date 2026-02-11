@@ -118,6 +118,7 @@
     <ClCompile Include="src\game\logic\dungeon_loader.cpp" />
     <ClCompile Include="src\game\logic\GameSimulation.cpp" />
     <ClCompile Include="src\game\logic\stages\RoundEndStage.hpp" />
+    <ClCompile Include="src\game\logic\stage_factory.cpp" />
     <ClCompile Include="src\game\views\DungeonView.cpp" />
     <ClCompile Include="src\game\views\HudView.cpp" />
     <ClCompile Include="src\game\views\StartMenuView.cpp" />
@@ -139,9 +140,11 @@
     <ClInclude Include="src\engine\datatypes\IView.hpp" />
     <ClInclude Include="src\game\datatypes\DungeonLayout.hpp" />
     <ClInclude Include="src\game\datatypes\entities\Adventurer.hpp" />
+    <ClInclude Include="src\game\datatypes\entities\Dragon.hpp" />
     <ClInclude Include="src\game\datatypes\EntitySnapshot.hpp" />
     <ClInclude Include="src\game\datatypes\EntityTypes.hpp" />
     <ClInclude Include="src\game\datatypes\GameSnapshot.hpp" />
+    <ClInclude Include="src\game\datatypes\IDungeonStage.hpp" />
     <ClInclude Include="src\game\datatypes\LogicCommands.hpp" />
     <ClInclude Include="src\engine\ThreadSafeQueue.hpp" />
     <ClInclude Include="src\engine\ui\base.hpp" />
@@ -158,7 +161,7 @@
     <ClInclude Include="src\game\logic\DungeonModel.hpp" />
     <ClInclude Include="src\game\logic\dungeon_loader.hpp" />
     <ClInclude Include="src\game\logic\GameSimulation.hpp" />
-    <ClInclude Include="src\game\logic\StageFactory.hpp" />
+    <ClInclude Include="src\game\logic\stage_factory.hpp" />
     <ClInclude Include="src\game\logic\stages\AdventurerStage.hpp" />
     <ClInclude Include="src\game\logic\stages\DragonStage.hpp" />
     <ClInclude Include="src\game\views\DungeonView.hpp" />

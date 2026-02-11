@@ -16,7 +16,7 @@ public:
 	DungeonView(std::unique_ptr<SharedGameState>* sharedState)
 		: m_hudView(std::make_unique<HudView>()), m_sharedGameState(*sharedState)
 	{
-		InitSprites();
+		InitTileSprites();
 	}
 
 	virtual bool HandleEvent(const sf::RenderWindow& window, const sf::Event& event) override;
@@ -29,11 +29,14 @@ private:
 	// rendering
 	void RenderSpriteInRoom(sf::RenderWindow& window, std::unique_ptr<sf::Sprite>& sprite, sf::Vector2f spriteSize, DungeonRoomPos roomPos);
 	void RenderRoom(sf::RenderWindow& window, DungeonRoom* tileData, DungeonRoomPos roomPos);
-	void RenderEntity(sf::RenderWindow& window, const EntitySnapshot& entitySnap);
 
-	void InitSprites();
+	void SyncEntitySprites(const EntitySystemSnapshot& entitiesSnap);
+
+	// load textures and stuff
+	void InitTileSprites();
+
+	// texture transformation and calculations
 	sf::IntRect GetTileTextureRect(DungeonTileType type);
-	bool GetEntityTexture(EntityType entityType, std::shared_ptr<sf::Texture>& outTexture, sf::Vector2f& outTextureSize);
 
 private:
 	static inline constexpr float DUNGEON_SCALE_FACTOR = 2.f;
@@ -43,7 +46,8 @@ private:
 	std::unique_ptr<SharedGameState>& m_sharedGameState;
 	GameSnapshot m_gameSnap; // so if we can't pull snap, we render the last one
 
-	// images
+	// sprites
 	std::unique_ptr<sf::Sprite> m_tileBg{};
 	std::unique_ptr<sf::Sprite> m_tileSet{};
+	std::map<uint32_t, sf::Sprite> m_entitySprites; // map entity id to a reusable sprite
 };

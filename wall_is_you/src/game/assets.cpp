@@ -9,6 +9,7 @@ std::unordered_map<AssetId, fs::path> textures = {
 	{ AssetId::BlockTileset, ASSETS_PATH / "blocks_no_bg.png" },
 	{ AssetId::BlockBackground, ASSETS_PATH / "block_background.png" },
 	{ AssetId::Adventurer, ASSETS_PATH / "knight.png" },
+	{ AssetId::Dragon, ASSETS_PATH / "dragon.png" },
 };
 
 std::unordered_map<AssetId, fs::path> fonts = {

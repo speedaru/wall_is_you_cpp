@@ -2,14 +2,19 @@
 #include "pch.h"
 #include "engine/datatypes/IGameStage.hpp"
 
-class RoundEndStage : public IGameStage {
+#include "game/datatypes/IDungeonStage.hpp"
+
+
+class RoundEndStage : public IDungeonStage {
 public:
+	using IDungeonStage::IDungeonStage;
+
 	virtual void OnEnter() override {
 		
 	}
 
-	virtual void OnUpdate(float dt) override {
-
+	virtual bool OnUpdate(float dt) override {
+		return false;
 	}
 
 	virtual void OnExit() override {

@@ -4,6 +4,8 @@
 #include <codecvt>
 
 #include "game/datatypes/DungeonEntity.hpp"
+#include "game/datatypes/entities/Adventurer.hpp"
+#include "game/datatypes/entities/Dragon.hpp"
 #include "DungeonModel.hpp"
 
 #include "utils/logging.hpp"
@@ -53,15 +55,6 @@ void dungeon_loader::LoadFromFile(const fs::path& path, DungeonModel& dungeon) {
     EntitySystem entitySystem;
     ParseTags(entitySystem, buffer);
 
-    // debug
-    printf("tile type:\n");
-    for (size_t i = 0; i < layout.height; i++) {
-        for (size_t j = 0; j < layout.width; j++) {
-            printf("%u ", layout.tiles[i * layout.width + j].type);
-        }
-        printf("\n");
-    }
-
     dungeon.SetLayout(layout);
     dungeon.SetEntitySystem(entitySystem);
 }
@@ -93,7 +86,6 @@ static void ParseGrid(DungeonLayout& layout, std::basic_stringstream<char32_t>& 
             
             auto it = SYMBOL_LOOKUP.find(sym);
             if (it != SYMBOL_LOOKUP.end()) {
-                LOG_D("pushing tile in room: %u %u\n", x, y);
                 layout.tiles.push_back(it->second);
             } else {
                 layout.tiles.push_back({ DungeonTileType::Unknown, 0 });
@@ -107,7 +99,15 @@ static DungeonEntity ParseAdventurer(EntitySystem& entitySystem, std::istringstr
     ss >> roomPos.row;
     ss >> roomPos.col;
 
-    return DungeonEntity(entitySystem.GetNewEntityId(), EntityType::Adventurer, roomPos);
+    return AdventurerEntity(entitySystem.GetNewEntityId(), roomPos);
+}
+
+static DungeonEntity ParseDragon(EntitySystem& entitySystem, std::istringstream& ss) {
+    DungeonRoomPos roomPos;
+    ss >> roomPos.row;
+    ss >> roomPos.col;
+
+    return DragonEntity(entitySystem.GetNewEntityId(), roomPos);
 }
 
 static void ParseTags(EntitySystem& entitySystem, std::basic_stringstream<char32_t>& buffer) {
@@ -121,11 +121,16 @@ static void ParseTags(EntitySystem& entitySystem, std::basic_stringstream<char32
         std::string tag;
         ss >> tag;
 
-        // entity tags
-        if (tag == "A") {
-            entitySystem.AddEntity(ParseAdventurer(entitySystem, ss));
-        }
-        else if (tag == "D") {
+        if (tag == "E") {
+            std::string entityType;
+            ss >> entityType;
+
+			if (entityType == "A") {
+				entitySystem.AddEntity(ParseAdventurer(entitySystem, ss));
+			}
+			else if (entityType == "D") {
+				entitySystem.AddEntity(ParseDragon(entitySystem, ss));
+			}
         }
     }
 }

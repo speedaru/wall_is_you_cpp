@@ -10,6 +10,7 @@
 // Heavy STL Headers
 #include <vector>
 #include <queue>
+#include <set>
 #include <memory>
 #include <string>
 #include <map>

@@ -17,7 +17,11 @@ enum class AssetId {
 	BlockBackground,
 
 	// entities
-	Adventurer
+	Adventurer,
+	Dragon,
+	Treasure,
+	StrongSword,
+	ChaosSeal,
 };
 
 namespace assets {

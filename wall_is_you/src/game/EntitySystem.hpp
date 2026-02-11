@@ -35,5 +35,4 @@ private:
 template <typename... Args>
 void EntitySystem::AddEntity(Args&&... args) {
 	m_entities.push_back(std::make_unique<DungeonEntity>(std::forward<Args>(args)...));
-	printf("now have %llu entities\n", m_entities.size());
 }

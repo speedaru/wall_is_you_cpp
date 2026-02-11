@@ -24,20 +24,21 @@ public:
 private:
     void Run(); // The actual thread loop
 
-    void HandleLogicCommands();
-
-    void UpdateStages(float dt);
+    // returns true if state changed
+    [[nodiscard]] bool HandleLogicCommands();
+    // returns true if state changed
+    [[nodiscard]] bool UpdateStages(float dt);
 
     void UpdateGameSnapshot();
 
-private: // logic commands
+    // logic commands
     void HandleLoadDungeon(const LoadDungeonData& data);
 
 private:
-    // thread stuff
+    // thread and state stuff
     std::jthread m_thread;
     std::atomic<bool> m_isRunning{ false };
-    std::atomic<bool> m_isPaused{ false };
+    bool m_isPaused{ false };
 
     // stages
     std::shared_ptr<IGameStage> m_currentStage = nullptr;

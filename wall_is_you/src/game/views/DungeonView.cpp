@@ -16,6 +16,18 @@
 #include "utils/macros.hpp"
 
 
+struct EntityVisual {
+	AssetId assetId;
+	float scaleMultiplier; // relative to tile size
+	sf::Vector2f pivotOffset; // to adjust if the sprite should stand on the bottom of the tile
+};
+
+static const std::unordered_map<EntityType, EntityVisual> ENTITY_VISUAL_REGISTRY = {
+	{ EntityType::Adventurer, { AssetId::Adventurer, 0.6f, {0.f, 0.f} } },
+	{ EntityType::Dragon,     { AssetId::Dragon,     0.5f, {0.f, 0.f} } },
+};
+
+
 bool DungeonView::HandleEvent(const sf::RenderWindow& window, const sf::Event& event) {
 	m_hudView->HandleEvent(window, event);
 
@@ -30,24 +42,22 @@ bool DungeonView::HandleEvent(const sf::RenderWindow& window, const sf::Event& e
 
 void DungeonView::Update(float dt) {
 	m_hudView->Update(dt);
+
+	// get new game snapshot to render
+	if (m_sharedGameState->PullGameSnap(m_gameSnap)) {
+		SyncEntitySprites(m_gameSnap.dungeonSnap.entitySystem);
+	}
 }
 
 void DungeonView::Render(sf::RenderWindow& window) {
-	// get new game snapshot to render
-    m_sharedGameState->PullGameSnap(m_gameSnap);
-
-    DungeonSnapshot& dungeonSnap = m_gameSnap.dungeonSnap;
-
 	// render dungeon layout
-    DungeonLayout& layout = dungeonSnap.layout;
-    for (DungeonLayoutIterator it = layout; !it.Finished(); it++) {
+    for (DungeonLayoutIterator it = m_gameSnap.dungeonSnap.layout; !it.Finished(); it++) {
 		RenderRoom(window, *it, it.GetRoomPos());
     }
 
 	// render entities
-	EntitySystemSnapshot& entitiesSnap = dungeonSnap.entitySystem;
-	for (const auto& entitySnap : entitiesSnap) {
-		RenderEntity(window, entitySnap);
+	for (const auto& [id, sprite] : m_entitySprites) {
+		window.draw(sprite);
 	}
 
 	// render hud on top
@@ -79,16 +89,50 @@ void DungeonView::RenderRoom(sf::RenderWindow& window, DungeonRoom* tileData, Du
 	RenderSpriteInRoom(window, m_tileSet, tileScaledSize, roomPos);
 }
 
-void DungeonView::RenderEntity(sf::RenderWindow& window, const EntitySnapshot& entitySnap) {
-	std::shared_ptr<sf::Texture> texture;
-	sf::Vector2f targetSize;
-	GetEntityTexture(entitySnap.type, texture, targetSize);
+void DungeonView::SyncEntitySprites(const EntitySystemSnapshot& entitiesSnap) {
+	std::set<uint32_t> activeIds;
 
-	auto entitySprite = std::make_unique<sf::Sprite>(*texture);
-	RenderSpriteInRoom(window, entitySprite, targetSize, entitySnap.roomPos);
+    for (const auto& snap : entitiesSnap) {
+        activeIds.insert(snap.id);
+        
+        // set visual config
+        auto visualIt = ENTITY_VISUAL_REGISTRY.find(snap.type);
+        if (visualIt == ENTITY_VISUAL_REGISTRY.end()) continue;
+        const auto& config = visualIt->second;
+
+        // get or set sprite
+        if (m_entitySprites.find(snap.id) == m_entitySprites.end()) {
+            auto texture = sp::ServiceLocator::GetAssetManager().GetAsset<sf::Texture>(config.assetId);
+			m_entitySprites.emplace(snap.id, sf::Sprite(*texture));
+            
+            // Set origin to bottom-center or center depending on your art style
+            sf::Vector2u texSize = texture->getSize();
+            m_entitySprites.at(snap.id).setOrigin({ texSize.x / 2.f, texSize.y / 2.f });
+        }
+
+        sf::Sprite& sprite = m_entitySprites.at(snap.id);
+
+		// handle scaling
+        // calculate scale based on the TILE_SIZE and the multiplier
+        float targetWidth = s_tileSize.x * DUNGEON_SCALE_FACTOR * config.scaleMultiplier;
+        float currentTexWidth = static_cast<float>(sprite.getTextureRect().size.x);
+        float finalScale = targetWidth / currentTexWidth;
+        sprite.setScale({ finalScale, finalScale });
+
+        // position with offset
+        float posX = (snap.roomPos.col * s_tileSize.x * DUNGEON_SCALE_FACTOR) + (s_tileSize.x * DUNGEON_SCALE_FACTOR / 2.f);
+        float posY = (snap.roomPos.row * s_tileSize.y * DUNGEON_SCALE_FACTOR) + (s_tileSize.y * DUNGEON_SCALE_FACTOR / 2.f);
+        
+        // apply the pivot offset from config
+        sprite.setPosition({ posX + config.pivotOffset.x, posY + config.pivotOffset.y });
+    }
+
+	std::erase_if(m_entitySprites, [&](const auto& pair) {
+		return !activeIds.contains(pair.first);
+	});
 }
 
-void DungeonView::InitSprites() {
+void DungeonView::InitTileSprites() {
     sp::AssetManager& assetManager = sp::ServiceLocator::GetAssetManager();
 
 	auto loadSprite = [&](AssetId id, std::unique_ptr<sf::Sprite>& sprite) {
@@ -123,15 +167,3 @@ sf::IntRect DungeonView::GetTileTextureRect(DungeonTileType type) {
     return sf::IntRect({x, y}, sf::Vector2i(s_tileSize));
 }
 
-bool DungeonView::GetEntityTexture(EntityType entityType, std::shared_ptr<sf::Texture>& outTexture, sf::Vector2f& outTextureSize) {
-	sp::AssetManager& assetManager = sp::ServiceLocator::GetAssetManager();
-
-	switch (entityType) {
-	case EntityType::Adventurer:
-		outTexture = assetManager.GetAsset<sf::Texture>(AssetId::Adventurer);
-		outTextureSize = s_tileSize * 0.5f * DUNGEON_SCALE_FACTOR;
-		return true;
-	default:
-		return false;
-	}
-}

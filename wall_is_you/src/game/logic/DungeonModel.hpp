@@ -11,6 +11,10 @@ public:
 	void SetLayout(const DungeonLayout& layout);
 	void SetEntitySystem(const EntitySystem& entSystem);
 
+	constexpr bool IsLoaded() const {
+		return !m_layout.tiles.empty();
+	}
+
 private:
 	DungeonLayout m_layout;
 	EntitySystem m_entitySystem;
