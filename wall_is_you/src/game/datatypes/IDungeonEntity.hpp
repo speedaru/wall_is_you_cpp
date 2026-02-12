@@ -7,9 +7,9 @@
 #include "EntityTypes.hpp"
 
 
-class DungeonEntity : public sp::Entity {
+class IDungeonEntity : public sp::Entity {
 public:
-	DungeonEntity(sp::EntityId id, EntityType type, DungeonRoomPos pos)
+	IDungeonEntity(sp::EntityId id, EntityType type, DungeonRoomPos pos)
 		: Entity(id), m_type(type), m_roomPos(pos) {}
 
 	EntityType GetType() const {

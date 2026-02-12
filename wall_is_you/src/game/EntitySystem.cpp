@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "EntitySystem.hpp"
 
+#include "utils/logging.hpp"
 
-const std::vector<std::unique_ptr<DungeonEntity>>& EntitySystem::GetEntities() const {
+
+const std::vector<std::unique_ptr<IDungeonEntity>>& EntitySystem::GetEntities() const {
 	return m_entities;
 }
 
@@ -15,6 +17,7 @@ EntitySystemSnapshot EntitySystem::CreateSnapshot() const {
 		entSnap.roomPos = ent->GetRoomPos();
 		snap.push_back(entSnap);
 	}
+	LOG_D("snapped %llu entities\n", m_entities.size());
 	return snap;
 }
 

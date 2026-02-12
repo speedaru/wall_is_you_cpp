@@ -1,14 +1,19 @@
 #pragma once
-#include "game/datatypes/DungeonEntity.hpp"
+#include "game/datatypes/IDungeonEntity.hpp"
 #include "game/datatypes/EntityTypes.hpp"
 
 
 typedef std::vector<DungeonRoomPos> MovementPath;
 
-class AdventurerEntity : public DungeonEntity {
+class AdventurerEntity : public IDungeonEntity {
 public:
-	AdventurerEntity(sp::EntityId id, DungeonRoomPos pos) : DungeonEntity(id, EntityType::Adventurer, pos) {}
+	AdventurerEntity(sp::EntityId id, DungeonRoomPos pos, uint32_t level)
+		: IDungeonEntity(id, EntityType::Adventurer, pos), m_level(level)
+	{
+
+	}
 
 private:
 	MovementPath m_path;
+	uint32_t m_level;
 };

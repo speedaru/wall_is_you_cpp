@@ -23,8 +23,11 @@ struct EntityVisual {
 };
 
 static const std::unordered_map<EntityType, EntityVisual> ENTITY_VISUAL_REGISTRY = {
-	{ EntityType::Adventurer, { AssetId::Adventurer, 0.6f, {0.f, 0.f} } },
-	{ EntityType::Dragon,     { AssetId::Dragon,     0.5f, {0.f, 0.f} } },
+	{ EntityType::Adventurer,	{ AssetId::Adventurer,		0.6f, {0.f, 0.f} } },
+	{ EntityType::Dragon,		{ AssetId::Dragon,			0.5f, {0.f, 0.f} } },
+	{ EntityType::StrongSword,  { AssetId::StrongSword,		0.4f, {0.f, 0.f} } },
+	{ EntityType::ChaosSeal,	{ AssetId::ChaosSeal,		0.5f, {0.f, 0.f} } },
+	{ EntityType::Treasure,		{ AssetId::TreasuresGrid,	0.4f, {0.f, 0.f} } },
 };
 
 
@@ -56,7 +59,7 @@ void DungeonView::Render(sf::RenderWindow& window) {
     }
 
 	// render entities
-	for (const auto& [id, sprite] : m_entitySprites) {
+	for (auto& [id, sprite] : m_entitySprites) {
 		window.draw(sprite);
 	}
 
@@ -78,7 +81,7 @@ void DungeonView::RenderSpriteInRoom(sf::RenderWindow& window, std::unique_ptr<s
 
 void DungeonView::RenderRoom(sf::RenderWindow& window, DungeonRoom* tileData, DungeonRoomPos roomPos) {
 	// crop tilset to current tile
-	m_tileSet->setTextureRect(GetTileTextureRect(tileData->type));
+	m_tileSet->setTextureRect(GetTextureRect(m_tileSet->getTexture(), sf::Vector2u(s_tileSize), (int)tileData->type));
 
 	// rotate tile
 	m_tileSet->setRotation(sf::degrees(tileData->rotations * 90.f));
@@ -104,10 +107,17 @@ void DungeonView::SyncEntitySprites(const EntitySystemSnapshot& entitiesSnap) {
         if (m_entitySprites.find(snap.id) == m_entitySprites.end()) {
             auto texture = sp::ServiceLocator::GetAssetManager().GetAsset<sf::Texture>(config.assetId);
 			m_entitySprites.emplace(snap.id, sf::Sprite(*texture));
+			auto& sprite = m_entitySprites.at(snap.id);
+
+			// if treasure select random texture
+			if (snap.type == EntityType::Treasure) {
+				SetRandomTextureFromGrid(*texture, 5, sprite);
+			}
             
             // Set origin to bottom-center or center depending on your art style
-            sf::Vector2u texSize = texture->getSize();
+            sf::Vector2u texSize(sprite.getLocalBounds().size);
             m_entitySprites.at(snap.id).setOrigin({ texSize.x / 2.f, texSize.y / 2.f });
+			LOG_D("added sprite for ent id %u, type: %d, asset id: %d\n", snap.id, snap.type, config.assetId);
         }
 
         sf::Sprite& sprite = m_entitySprites.at(snap.id);
@@ -115,7 +125,8 @@ void DungeonView::SyncEntitySprites(const EntitySystemSnapshot& entitiesSnap) {
 		// handle scaling
         // calculate scale based on the TILE_SIZE and the multiplier
         float targetWidth = s_tileSize.x * DUNGEON_SCALE_FACTOR * config.scaleMultiplier;
-        float currentTexWidth = static_cast<float>(sprite.getTextureRect().size.x);
+        float currentTexWidth = static_cast<float>(sprite.getLocalBounds().size.x);
+		LOG_D("current texture width: %.2f\n", currentTexWidth);
         float finalScale = targetWidth / currentTexWidth;
         sprite.setScale({ finalScale, finalScale });
 
@@ -151,19 +162,41 @@ void DungeonView::InitTileSprites() {
 	loadSprite(AssetId::BlockBackground, m_tileBg);
 	m_tileBg->setOrigin(s_tileSize / 2.f);
 
-	loadSprite(AssetId::BlockTileset, m_tileSet);
+	loadSprite(AssetId::BlocksGrid, m_tileSet);
 	m_tileSet->setOrigin(s_tileSize / 2.f);
 }
 
-sf::IntRect DungeonView::GetTileTextureRect(DungeonTileType type) {
-    // We cast the enum to an int to get the index (0 through 5)
-    int index = static_cast<int>(type);
-    
-    // Calculate row and column
-    int columns = 3; // Your tileset is 192px wide (192 / 64 = 3)
-    int x = (index % columns) * (int)s_tileSize.x;
-	int y = (index / columns) * (int)s_tileSize.y;
+sf::IntRect DungeonView::GetTextureRect(const sf::Texture& textureGrid, sf::Vector2u cellSize, int textureIdx) {
+    int columns = textureGrid.getSize().x / cellSize.x;
 
-    return sf::IntRect({x, y}, sf::Vector2i(s_tileSize));
+    int x = (textureIdx % columns) * cellSize.x;
+	int y = (textureIdx / columns) * cellSize.y;
+
+    return sf::IntRect({x, y}, sf::Vector2i(cellSize));
+}
+
+void DungeonView::SetRandomTextureFromGrid(const sf::Texture& texture, uint32_t cellCount, sf::Sprite& sprite) {
+	std::random_device random;
+	std::mt19937 rng(random());
+	std::uniform_int_distribution<std::mt19937::result_type> dist(0, cellCount - 1);
+
+	uint32_t randomIdx = dist(rng);
+	
+	sf::Vector2u textureSize = texture.getSize();
+	float area = static_cast<float>(textureSize.x * textureSize.y);
+
+	// if not even number of cells, then add 1 to get total number of cols
+	float totalGridCols = static_cast<float>(cellCount);
+	if (cellCount & 1) { // if odd
+		totalGridCols++;
+	}
+
+	float cellLength = sqrtf(area / totalGridCols);
+	if (cellLength != (uint32_t)cellLength) {
+		throw new std::exception("failed to find cellSize");
+	}
+
+	sf::Vector2u cellSize((uint32_t)cellLength, (uint32_t)cellLength);
+	sprite.setTextureRect(GetTextureRect(texture, cellSize, randomIdx));
 }
 

@@ -3,9 +3,11 @@
 #include <fstream>
 #include <codecvt>
 
-#include "game/datatypes/DungeonEntity.hpp"
 #include "game/datatypes/entities/Adventurer.hpp"
 #include "game/datatypes/entities/Dragon.hpp"
+#include "game/datatypes/entities/StrongSwordEntity.hpp"
+#include "game/datatypes/entities/ChaosSealEntity.hpp"
+#include "game/datatypes/entities/TreasureEntity.hpp"
 #include "DungeonModel.hpp"
 
 #include "utils/logging.hpp"
@@ -94,20 +96,27 @@ static void ParseGrid(DungeonLayout& layout, std::basic_stringstream<char32_t>& 
     }
 }
 
-static DungeonEntity ParseAdventurer(EntitySystem& entitySystem, std::istringstream& ss) {
+// basic entity derived from IDungeonEntity
+template <std::derived_from<IDungeonEntity> T>
+static IDungeonEntity ParseEntity(EntitySystem& entitySystem, std::istringstream& ss) {
     DungeonRoomPos roomPos;
     ss >> roomPos.row;
     ss >> roomPos.col;
 
-    return AdventurerEntity(entitySystem.GetNewEntityId(), roomPos);
+    return T(entitySystem.GetNewEntityId(), roomPos);
 }
 
-static DungeonEntity ParseDragon(EntitySystem& entitySystem, std::istringstream& ss) {
+// entity derived from IDungeonEntity that has a level
+template <std::derived_from<IDungeonEntity> T>
+static IDungeonEntity ParseEntityWithLevel(EntitySystem& entitySystem, std::istringstream& ss) {
     DungeonRoomPos roomPos;
     ss >> roomPos.row;
     ss >> roomPos.col;
 
-    return DragonEntity(entitySystem.GetNewEntityId(), roomPos);
+    uint32_t level;
+    ss >> level;
+
+    return T(entitySystem.GetNewEntityId(), roomPos, level);
 }
 
 static void ParseTags(EntitySystem& entitySystem, std::basic_stringstream<char32_t>& buffer) {
@@ -126,10 +135,24 @@ static void ParseTags(EntitySystem& entitySystem, std::basic_stringstream<char32
             ss >> entityType;
 
 			if (entityType == "A") {
-				entitySystem.AddEntity(ParseAdventurer(entitySystem, ss));
+				entitySystem.AddEntity(ParseEntityWithLevel<AdventurerEntity>(entitySystem, ss));
+                printf("parsed adventurer, ent id: %u\n", entitySystem.GetEntities().back()->GetId());
 			}
 			else if (entityType == "D") {
-				entitySystem.AddEntity(ParseDragon(entitySystem, ss));
+				entitySystem.AddEntity(ParseEntityWithLevel<DragonEntity>(entitySystem, ss));
+                printf("parsed dragon, ent id: %u\n", entitySystem.GetEntities().back()->GetId());
+			}
+			else if (entityType == "S") {
+				entitySystem.AddEntity(ParseEntity<StrongSwordEntity>(entitySystem, ss));
+                printf("parsed strong sword, ent id: %u\n", entitySystem.GetEntities().back()->GetId());
+			}
+			else if (entityType == "CS") {
+				entitySystem.AddEntity(ParseEntity<ChaosSealEntity>(entitySystem, ss));
+                printf("parsed chaos seal, ent id: %u\n", entitySystem.GetEntities().back()->GetId());
+			}
+			else if (entityType == "T") {
+				entitySystem.AddEntity(ParseEntity<TreasureEntity>(entitySystem, ss));
+                printf("parsed treasure, ent id: %u\n", entitySystem.GetEntities().back()->GetId());
 			}
         }
     }

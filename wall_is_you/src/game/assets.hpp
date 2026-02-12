@@ -13,13 +13,13 @@ enum class AssetId {
 
 	// blocks
 	StartBackground,
-	BlockTileset,
+	BlocksGrid,
 	BlockBackground,
 
 	// entities
 	Adventurer,
 	Dragon,
-	Treasure,
+	TreasuresGrid,
 	StrongSword,
 	ChaosSeal,
 };

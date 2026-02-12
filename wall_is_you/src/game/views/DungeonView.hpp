@@ -36,7 +36,10 @@ private:
 	void InitTileSprites();
 
 	// texture transformation and calculations
-	sf::IntRect GetTileTextureRect(DungeonTileType type);
+	sf::IntRect GetTextureRect(const sf::Texture& textureGrid, sf::Vector2u cellSize, int textureIdx);
+
+	// cellCount: non empty number of cells
+	void SetRandomTextureFromGrid(const sf::Texture& texture, uint32_t cellCount, sf::Sprite& sprite);
 
 private:
 	static inline constexpr float DUNGEON_SCALE_FACTOR = 2.f;

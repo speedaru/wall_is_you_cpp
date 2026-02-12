@@ -6,10 +6,13 @@
 
 std::unordered_map<AssetId, fs::path> textures = {
 	{ AssetId::StartBackground, ASSETS_PATH / "start_background.png" },
-	{ AssetId::BlockTileset, ASSETS_PATH / "blocks_no_bg.png" },
+	{ AssetId::BlocksGrid, ASSETS_PATH / "blocks_no_bg.png" },
 	{ AssetId::BlockBackground, ASSETS_PATH / "block_background.png" },
-	{ AssetId::Adventurer, ASSETS_PATH / "knight.png" },
+	{ AssetId::Adventurer, ASSETS_PATH / "adventurer.png" },
 	{ AssetId::Dragon, ASSETS_PATH / "dragon.png" },
+	{ AssetId::StrongSword, ASSETS_PATH / "strong_sword.png" },
+	{ AssetId::ChaosSeal, ASSETS_PATH / "chaos_seal.png" },
+	{ AssetId::TreasuresGrid, ASSETS_PATH / "treasures.png" },
 };
 
 std::unordered_map<AssetId, fs::path> fonts = {

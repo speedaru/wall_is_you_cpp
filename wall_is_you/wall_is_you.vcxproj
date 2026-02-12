@@ -131,7 +131,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\datatypes\Entity.hpp" />
-    <ClInclude Include="src\game\datatypes\DungeonEntity.hpp" />
+    <ClInclude Include="src\game\datatypes\entities\TreasureEntity.hpp" />
+    <ClInclude Include="src\game\datatypes\IDungeonEntity.hpp" />
     <ClInclude Include="src\engine\Renderer.hpp" />
     <ClInclude Include="src\engine\ui\text.hpp" />
     <ClInclude Include="resource.h" />
@@ -140,7 +141,9 @@
     <ClInclude Include="src\engine\datatypes\IView.hpp" />
     <ClInclude Include="src\game\datatypes\DungeonLayout.hpp" />
     <ClInclude Include="src\game\datatypes\entities\Adventurer.hpp" />
+    <ClInclude Include="src\game\datatypes\entities\ChaosSealEntity.hpp" />
     <ClInclude Include="src\game\datatypes\entities\Dragon.hpp" />
+    <ClInclude Include="src\game\datatypes\entities\StrongSwordEntity.hpp" />
     <ClInclude Include="src\game\datatypes\EntitySnapshot.hpp" />
     <ClInclude Include="src\game\datatypes\EntityTypes.hpp" />
     <ClInclude Include="src\game\datatypes\GameSnapshot.hpp" />
