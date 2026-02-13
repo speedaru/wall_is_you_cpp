@@ -159,7 +159,7 @@ enum class Key
 ///
 ////////////////////////////////////////////////////////////
 // NOLINTNEXTLINE(readability-identifier-naming)
-inline constexpr unsigned int KeyCount{static_cast<unsigned int>(Key::Pause) + 1};
+static constexpr unsigned int KeyCount{static_cast<unsigned int>(Key::Pause) + 1};
 
 ////////////////////////////////////////////////////////////
 /// \brief Scancodes
@@ -333,7 +333,7 @@ using Scancode = Scan;
 ///
 ////////////////////////////////////////////////////////////
 // NOLINTNEXTLINE(readability-identifier-naming)
-inline constexpr unsigned int ScancodeCount{static_cast<unsigned int>(Scan::LaunchMediaSelect) + 1};
+static constexpr unsigned int ScancodeCount{static_cast<unsigned int>(Scan::LaunchMediaSelect) + 1};
 
 ////////////////////////////////////////////////////////////
 /// \brief Check if a key is pressed

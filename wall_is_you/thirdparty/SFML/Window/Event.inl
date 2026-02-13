@@ -60,29 +60,11 @@ bool Event::is() const
 
 ////////////////////////////////////////////////////////////
 template <typename TEventSubtype>
-TEventSubtype* Event::getIf()
-{
-    static_assert(isEventSubtype<TEventSubtype>, "TEventSubtype must be a subtype of sf::Event");
-    if constexpr (isEventSubtype<TEventSubtype>)
-        return std::get_if<TEventSubtype>(&m_data);
-}
-
-
-////////////////////////////////////////////////////////////
-template <typename TEventSubtype>
 const TEventSubtype* Event::getIf() const
 {
     static_assert(isEventSubtype<TEventSubtype>, "TEventSubtype must be a subtype of sf::Event");
     if constexpr (isEventSubtype<TEventSubtype>)
         return std::get_if<TEventSubtype>(&m_data);
-}
-
-
-////////////////////////////////////////////////////////////
-template <typename Visitor>
-decltype(auto) Event::visit(Visitor&& visitor)
-{
-    return std::visit(std::forward<Visitor>(visitor), m_data);
 }
 
 

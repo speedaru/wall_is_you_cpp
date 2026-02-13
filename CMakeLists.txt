@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # 2. Point to your local SFML build
-set(SFML_DIR "$ENV{HOME}/sfml_install/lib/cmake/SFML")
+set(SFML_DIR "$ENV{HOME}/SFML-3.0.2/lib/cmake/SFML")
 set(SFML_STATIC_LIBRARIES TRUE) # Tells CMake to prioritize the .a files
 
 find_package(SFML 3 COMPONENTS Graphics Window System REQUIRED)

@@ -105,7 +105,7 @@ void WindowBase::handleEvents(Handlers&&... handlers)
     priv::OverloadSet overloadSet{priv::Caller<Handlers>{std::forward<Handlers>(handlers)}...,
                                   [](const priv::DelayOverloadResolution&) { /* ignore */ }};
 
-    while (std::optional event = pollEvent())
+    while (const std::optional event = pollEvent())
         event->visit(overloadSet);
 }
 
