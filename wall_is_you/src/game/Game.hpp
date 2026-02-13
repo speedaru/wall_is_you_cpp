@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "engine/Renderer.hpp"
+#include "engine/renderer.hpp"
 
 #include "game/logic/GameSimulation.hpp"
 
@@ -12,6 +12,8 @@ public:
 	Game(sf::Vector2u windowSize, const std::string& title);
 
 	~Game();
+
+    void CreateInitialView();
 
 	void DoFrame();
 	void RenderFrame();

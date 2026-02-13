@@ -1,6 +1,8 @@
 #pragma once
 #include "pch.h"
 
+#include "utils/logging.hpp"
+
 
 enum class AssetId;
 
@@ -31,7 +33,8 @@ namespace sp {
 	template <typename T>
 	std::shared_ptr<T> AssetManager::GetAsset(AssetId id) {
 		if (!AssetInitialized(id)) {
-			throw new std::exception("asset id not created");
+            LOG_D("asset id: %d\n", id);
+			throw std::runtime_error("asset id not created");
 			return nullptr;
 		}
 

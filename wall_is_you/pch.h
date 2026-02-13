@@ -20,6 +20,7 @@
 #include <mutex>
 #include <filesystem>
 #include <random>
+#include <stdexcept> // for exceptions
 namespace fs = std::filesystem;
 
 // Third-party

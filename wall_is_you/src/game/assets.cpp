@@ -28,6 +28,7 @@ void assets::LoadAssets(sp::AssetManager& assetManager) {
 	
 	auto addAssets = [&](const std::unordered_map<AssetId, fs::path>& assetMap, Callback_t callback) {
 		for (const auto& [key, val] : assetMap) {
+            LOG_D("loading %s\n", val.string().c_str());
 			(assetManager.*callback)(key, val);
 		}
 	};

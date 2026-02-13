@@ -188,7 +188,7 @@ void DungeonView::SetRandomTextureFromGrid(const sf::Texture& texture, uint32_t 
 
 	float cellLength = sqrtf(area / totalGridCols);
 	if (cellLength != (uint32_t)cellLength) {
-		throw new std::exception("failed to find cellSize");
+		throw std::runtime_error("failed to find cellSize");
 	}
 
 	sf::Vector2f cellSize(cellLength, cellLength);

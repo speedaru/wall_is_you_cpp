@@ -24,15 +24,17 @@ Game::Game(sf::Vector2u windowSize, const std::string& title)
 	// set window icon
 	sf::Image icon(std::filesystem::path("assets/game_icon.png"));
 	m_window->setIcon(icon);
-
-    // Initial Window is Start Menu
-    sp::ServiceLocator::GetWindowManager().Push(std::make_unique<StartMenuView>());
-
-    m_gameSimulation.Start();
 }
 
 Game::~Game() {
 	m_gameSimulation.Stop();
+}
+
+void Game::CreateInitialView() {
+    // Initial Window is Start Menu
+    sp::ServiceLocator::GetWindowManager().Push(std::make_unique<StartMenuView>());
+
+    m_gameSimulation.Start();
 }
 
 void Game::DoFrame() {
@@ -70,7 +72,7 @@ void Game::HandleUICommands() {
 
 	auto pushView = [&](UICommand& cmd) {
 		if (!cmd.view.has_value()) {
-			throw new std::exception("invalid push view UICommand, view was nullptr. forgot to handle push ?");
+			throw std::runtime_error("invalid push view UICommand, view was nullptr. forgot to handle push ?");
 		}
 		windowManager.Push(std::move(cmd.view.value()));
 	};

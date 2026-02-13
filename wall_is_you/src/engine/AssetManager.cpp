@@ -10,8 +10,17 @@ void sp::AssetManager::AddTexture(AssetId id, const fs::path& path) {
 
 void sp::AssetManager::AddFont(AssetId id, const fs::path& path) {
 	auto font = std::make_shared<sf::Font>();
-	if (font->openFromFile(path)) {
+
+    if (!fs::exists(path)) {
+        LOG_E("Font file missing: %s\n", path.string().c_str());
+        return;
+    }
+
+    if (font->openFromFile(path)) {
 		m_assets[id] = font;
 	}
+    else {
+        LOG_E("SFML could not open font: %s\n", path.string().c_str());
+    }
 }
 

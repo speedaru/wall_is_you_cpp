@@ -1,7 +1,5 @@
 ﻿#include "pch.h"
 #include "dungeon_loader.hpp"
-#include <fstream>
-#include <codecvt>
 
 #include "game/datatypes/entities/Adventurer.hpp"
 #include "game/datatypes/entities/Dragon.hpp"
@@ -12,8 +10,6 @@
 
 #include "utils/logging.hpp"
 #include "utils/io.hpp"
-
-#pragma warning(disable: 4566) // encoding
 
 
 static const std::unordered_map<char32_t, DungeonRoom> SYMBOL_LOOKUP = {
@@ -30,26 +26,20 @@ static const std::unordered_map<char32_t, DungeonRoom> SYMBOL_LOOKUP = {
 };
 
 
-// Helper to convert UTF-8 string to UTF-32 string
-static std::u32string ToUTF32(const std::string& str) {
-    try {
-        std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> convert;
-        return convert.from_bytes(str);
-    } catch (...) {
-        throw std::runtime_error("Failed to convert file to UTF-32. Ensure file is UTF-8 encoded.");
-    }
-}
-
 // function decl
-static void ParseGrid(DungeonLayout& layout, std::basic_stringstream<char32_t>& buffer);
-static void ParseTags(EntitySystem& entitySystem, std::basic_stringstream<char32_t>& buffer);
+static void ParseGrid(DungeonLayout& layout, std::stringstream& buffer);
+static void ParseTags(EntitySystem& entitySystem, std::stringstream& buffer);
+
+template <std::derived_from<IDungeonEntity> T>
+static IDungeonEntity ParseEntity(EntitySystem& entitySystem, std::istringstream& ss);
+template <std::derived_from<IDungeonEntity> T>
+static IDungeonEntity ParseEntityWithLevel(EntitySystem& entitySystem, std::istringstream& ss);
 
 
 void dungeon_loader::LoadFromFile(const fs::path& path, DungeonModel& dungeon) {
     // read file
     std::string rawContent = sp::utils::io::ReadFileStr(path);
-    std::u32string u32Content = ToUTF32(rawContent);
-    std::basic_stringstream<char32_t> buffer(u32Content); // Use a U32 stream
+    std::stringstream buffer(rawContent); // Standard stringstream
 
     DungeonLayout layout;
     ParseGrid(layout, buffer);
@@ -62,14 +52,10 @@ void dungeon_loader::LoadFromFile(const fs::path& path, DungeonModel& dungeon) {
 }
 
 
-static void ParseGrid(DungeonLayout& layout, std::basic_stringstream<char32_t>& buffer) {
-    std::u32string line;
-
-    // Header (Width Height)
+static void ParseGrid(DungeonLayout& layout, std::stringstream& buffer) {
+    std::string line;
     if (std::getline(buffer, line)) {
-        // Convert U32 line back to string just for the width/height numbers
-        std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> convert;
-        std::stringstream ss(convert.to_bytes(line));
+        std::stringstream ss(line);
         if (!(ss >> layout.width >> layout.height)) 
             throw std::runtime_error("Invalid header format.");
     }
@@ -80,11 +66,12 @@ static void ParseGrid(DungeonLayout& layout, std::basic_stringstream<char32_t>& 
     for (uint32_t y = 0; y < layout.height; ++y) {
         if (!std::getline(buffer, line)) break;
         
-        // Clean up Windows \r if present
-        if (!line.empty() && line.back() == U'\r') line.pop_back();
+        // Use SFML to handle the Unicode conversion safely
+        sf::String sfLine = sf::String::fromUtf8(line.begin(), line.end());
 
         for (uint32_t x = 0; x < layout.width; ++x) {
-            char32_t sym = (x < line.length()) ? line[x] : U' ';
+            // Get the 32-bit unicode character
+            uint32_t sym = (x < sfLine.getSize()) ? sfLine[x] : U' ';
             
             auto it = SYMBOL_LOOKUP.find(sym);
             if (it != SYMBOL_LOOKUP.end()) {
@@ -95,6 +82,33 @@ static void ParseGrid(DungeonLayout& layout, std::basic_stringstream<char32_t>& 
         }
     }
 }
+
+static void ParseTags(EntitySystem& entitySystem, std::stringstream& buffer) {
+    std::string line;
+    while (std::getline(buffer, line)) {
+        if (line.empty()) continue;
+        std::istringstream ss(line);
+        
+        std::string tag;
+        ss >> tag;
+        if (tag == "E") {
+            std::string entityType;
+            ss >> entityType;
+
+            if (entityType == "A") 
+                entitySystem.AddEntity(ParseEntityWithLevel<AdventurerEntity>(entitySystem, ss));
+            else if (entityType == "D") 
+                entitySystem.AddEntity(ParseEntityWithLevel<DragonEntity>(entitySystem, ss));
+            else if (entityType == "S") 
+                entitySystem.AddEntity(ParseEntity<StrongSwordEntity>(entitySystem, ss));
+            else if (entityType == "CS") 
+                entitySystem.AddEntity(ParseEntity<ChaosSealEntity>(entitySystem, ss));
+            else if (entityType == "T") 
+                entitySystem.AddEntity(ParseEntity<TreasureEntity>(entitySystem, ss));
+        }
+    }
+}
+
 
 // basic entity derived from IDungeonEntity
 template <std::derived_from<IDungeonEntity> T>
@@ -117,43 +131,4 @@ static IDungeonEntity ParseEntityWithLevel(EntitySystem& entitySystem, std::istr
     ss >> level;
 
     return T(entitySystem.GetNewEntityId(), roomPos, level);
-}
-
-static void ParseTags(EntitySystem& entitySystem, std::basic_stringstream<char32_t>& buffer) {
-	std::u32string line;
-
-    while (std::getline(buffer, line)) {
-        if (line.empty()) continue;
-        std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> convert;
-        std::istringstream ss(convert.to_bytes(line));
-        
-        std::string tag;
-        ss >> tag;
-
-        if (tag == "E") {
-            std::string entityType;
-            ss >> entityType;
-
-			if (entityType == "A") {
-				entitySystem.AddEntity(ParseEntityWithLevel<AdventurerEntity>(entitySystem, ss));
-                printf("parsed adventurer, ent id: %u\n", entitySystem.GetEntities().back()->GetId());
-			}
-			else if (entityType == "D") {
-				entitySystem.AddEntity(ParseEntityWithLevel<DragonEntity>(entitySystem, ss));
-                printf("parsed dragon, ent id: %u\n", entitySystem.GetEntities().back()->GetId());
-			}
-			else if (entityType == "S") {
-				entitySystem.AddEntity(ParseEntity<StrongSwordEntity>(entitySystem, ss));
-                printf("parsed strong sword, ent id: %u\n", entitySystem.GetEntities().back()->GetId());
-			}
-			else if (entityType == "CS") {
-				entitySystem.AddEntity(ParseEntity<ChaosSealEntity>(entitySystem, ss));
-                printf("parsed chaos seal, ent id: %u\n", entitySystem.GetEntities().back()->GetId());
-			}
-			else if (entityType == "T") {
-				entitySystem.AddEntity(ParseEntity<TreasureEntity>(entitySystem, ss));
-                printf("parsed treasure, ent id: %u\n", entitySystem.GetEntities().back()->GetId());
-			}
-        }
-    }
 }

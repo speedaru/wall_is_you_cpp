@@ -11,12 +11,12 @@
 #define __RELATIVE_FILE__ __FILE__ + sizeof(__PROJECT_DIR__) - 1
 
 namespace logging {
-	#define LOG(logLevel, format, ...) logging::Log(logLevel, __RELATIVE_FILE__, __LINE__, format, __VA_ARGS__)
+	#define LOG(logLevel, format, ...) logging::Log(logLevel, __RELATIVE_FILE__, __LINE__, format, ##__VA_ARGS__)
 
-	#define LOG_D(format, ...) LOG(LOG_LEVEL_DEBUG, format, __VA_ARGS__)
-	#define LOG_W(format, ...) LOG(LOG_LEVEL_WARNING, format, __VA_ARGS__)
-	#define LOG_E(format, ...) LOG(LOG_LEVEL_ERROR, format, __VA_ARGS__)
-	#define LOG_T(format, ...) LOG(LOG_LEVEL_TRACE, format, __VA_ARGS__)
+	#define LOG_D(format, ...) LOG(LOG_LEVEL_DEBUG, format, ##__VA_ARGS__)
+	#define LOG_W(format, ...) LOG(LOG_LEVEL_WARNING, format, ##__VA_ARGS__)
+	#define LOG_E(format, ...) LOG(LOG_LEVEL_ERROR, format, ##__VA_ARGS__)
+	#define LOG_T(format, ...) LOG(LOG_LEVEL_TRACE, format, ##__VA_ARGS__)
 
 	inline void Log(int logLevel, const char* file, int line, const char* format, ...) {
 		va_list args;
@@ -26,7 +26,11 @@ namespace logging {
 		printf("[%s:%d] ", file, line);
 
 		// log message
+#ifdef _WIN32
 		vprintf_s(format, args);
+#else
+        vprintf(format, args);
+#endif
 
 		va_end(args);
 	}
