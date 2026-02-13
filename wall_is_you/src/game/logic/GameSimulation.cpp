@@ -128,6 +128,9 @@ void GameSimulation::HandleLoadDungeon(const LoadDungeonData& data) {
 	// create stages
 	m_currentStage = stage_factory::CreateDungeonLoop(m_dungeon);
 
+    // clear previous dungeon
+    m_dungeon.ResetEntitySystem();
+
     // load dungeon layout
     dungeon_loader::LoadFromFile(data.path, m_dungeon);
 

@@ -47,7 +47,7 @@ static void ParseTags(EntitySystem& entitySystem, std::basic_stringstream<char32
 
 void dungeon_loader::LoadFromFile(const fs::path& path, DungeonModel& dungeon) {
     // read file
-    std::string rawContent = utils::ReadFileStr(path);
+    std::string rawContent = sp::utils::io::ReadFileStr(path);
     std::u32string u32Content = ToUTF32(rawContent);
     std::basic_stringstream<char32_t> buffer(u32Content); // Use a U32 stream
 

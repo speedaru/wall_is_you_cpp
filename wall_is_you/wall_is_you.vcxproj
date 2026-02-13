@@ -115,6 +115,7 @@
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\Game.hpp" />
     <ClCompile Include="src\game\logic\DungeonModel.cpp" />
+    <ClCompile Include="src\game\logic\dungeon_geom.cpp" />
     <ClCompile Include="src\game\logic\dungeon_loader.cpp" />
     <ClCompile Include="src\game\logic\GameSimulation.cpp" />
     <ClCompile Include="src\game\logic\stages\RoundEndStage.hpp" />
@@ -122,6 +123,7 @@
     <ClCompile Include="src\game\views\DungeonView.cpp" />
     <ClCompile Include="src\game\views\HudView.cpp" />
     <ClCompile Include="src\game\views\StartMenuView.cpp" />
+    <ClCompile Include="src\utils\graphics.cpp" />
     <ClCompile Include="src\utils\io.cpp" />
     <ClCompile Include="src\utils\sf_events.cpp" />
     <ClCompile Include="src\utils\string.cpp" />
@@ -162,6 +164,7 @@
     <ClInclude Include="src\game\EntitySystem.hpp" />
     <ClInclude Include="src\game\keybinds.hpp" />
     <ClInclude Include="src\game\logic\DungeonModel.hpp" />
+    <ClInclude Include="src\game\logic\dungeon_geom.hpp" />
     <ClInclude Include="src\game\logic\dungeon_loader.hpp" />
     <ClInclude Include="src\game\logic\GameSimulation.hpp" />
     <ClInclude Include="src\game\logic\stage_factory.hpp" />
@@ -170,6 +173,7 @@
     <ClInclude Include="src\game\views\DungeonView.hpp" />
     <ClInclude Include="src\game\views\HudView.hpp" />
     <ClInclude Include="src\game\views\StartMenuView.hpp" />
+    <ClInclude Include="src\utils\graphics.hpp" />
     <ClInclude Include="src\utils\macros.hpp" />
     <ClInclude Include="src\utils\io.hpp" />
     <ClInclude Include="src\utils\logging.hpp" />

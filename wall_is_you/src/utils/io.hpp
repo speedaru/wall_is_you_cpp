@@ -2,6 +2,10 @@
 #include "pch.h"
 
 
-namespace utils {
-	std::string ReadFileStr(const fs::path& path);
+namespace sp {
+	namespace utils {
+		namespace io {
+			std::string ReadFileStr(const fs::path& path);
+		}
+	}
 }

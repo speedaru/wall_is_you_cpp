@@ -18,7 +18,7 @@ StartMenuView::StartMenuView() {
 }
 
 bool StartMenuView::HandleEvent(const sf::RenderWindow& window, const sf::Event& event) {
-    if (sp::utils::IsKeyPressed(event, keybinds::EXIT_KEY)) {
+    if (sp::utils::ui::IsKeyPressed(event, keybinds::EXIT_KEY)) {
 		UICommand uiCmd;
 		uiCmd.type = UICommand::Type::ExitGame;
 		sp::ServiceLocator::GetUIQueue<UICommand>().Push(std::move(uiCmd));

@@ -2,7 +2,7 @@
 #include "string.hpp"
 
 
-std::string sp::utils::TrimString(const std::string& str, const std::string& sub, int dir) {
+std::string sp::utils::string::TrimString(const std::string& str, const std::string& sub, int dir) {
 	std::string trimmed(str);
 	size_t subSize = sub.size();
 

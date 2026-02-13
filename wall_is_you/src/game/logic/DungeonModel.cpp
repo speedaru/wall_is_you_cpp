@@ -14,3 +14,7 @@ void DungeonModel::SetEntitySystem(const EntitySystem& entSystem) {
 	m_entitySystem = entSystem;
 }
 
+void DungeonModel::ResetEntitySystem() {
+	m_entitySystem.Clear();
+}
+

@@ -21,6 +21,11 @@ EntitySystemSnapshot EntitySystem::CreateSnapshot() const {
 	return snap;
 }
 
+void EntitySystem::Clear() {
+	LOG_D("clearing %llu entities\n", m_entities.size());
+	m_entities.clear();
+}
+
 sp::EntityId EntitySystem::GetNewEntityId() {
 	if (!m_entities.empty()) {
 		return m_entities.back()->GetId() + 1;

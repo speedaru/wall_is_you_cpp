@@ -9,15 +9,20 @@
 
 class SharedGameState;
 enum class DungeonTileType;
+enum class AssetId;
+
+// for entity visual registry map
+struct EntityVisual {
+	AssetId assetId;
+	float scaleMultiplier; // relative to tile size
+	sf::Vector2f pivotOffset; // to adjust if the sprite should stand on the bottom of the tile
+	std::optional<int> randomTextureIdCount; // if texture is grid pick random idx between x cells
+};
 
 class DungeonView : public IView {
 public:
 	DungeonView() = delete;
-	DungeonView(std::unique_ptr<SharedGameState>* sharedState)
-		: m_hudView(std::make_unique<HudView>()), m_sharedGameState(*sharedState)
-	{
-		InitTileSprites();
-	}
+	DungeonView(std::unique_ptr<SharedGameState>* sharedState);
 
 	virtual bool HandleEvent(const sf::RenderWindow& window, const sf::Event& event) override;
 	virtual void Update(float dt) override;
@@ -27,24 +32,20 @@ public:
 
 private:
 	// rendering
-	void RenderSpriteInRoom(sf::RenderWindow& window, std::unique_ptr<sf::Sprite>& sprite, sf::Vector2f spriteSize, DungeonRoomPos roomPos);
+	void RenderSpriteInRoom(sf::RenderWindow& window, std::unique_ptr<sf::Sprite>& sprite, sf::Vector2f spriteSize, DungeonRoomPos roomPos) const;
 	void RenderRoom(sf::RenderWindow& window, DungeonRoom* tileData, DungeonRoomPos roomPos);
 
 	void SyncEntitySprites(const EntitySystemSnapshot& entitiesSnap);
+	// create new entity sprite into m_entitySprites
+	void CreateEntitySprite(const EntitySnapshot& entSnap, const EntityVisual& config);
 
 	// load textures and stuff
 	void InitTileSprites();
-
-	// texture transformation and calculations
-	sf::IntRect GetTextureRect(const sf::Texture& textureGrid, sf::Vector2u cellSize, int textureIdx);
 
 	// cellCount: non empty number of cells
 	void SetRandomTextureFromGrid(const sf::Texture& texture, uint32_t cellCount, sf::Sprite& sprite);
 
 private:
-	static inline constexpr float DUNGEON_SCALE_FACTOR = 2.f;
-	static inline sf::Vector2f s_tileSize;
-
 	std::unique_ptr<HudView> m_hudView;
 	std::unique_ptr<SharedGameState>& m_sharedGameState;
 	GameSnapshot m_gameSnap; // so if we can't pull snap, we render the last one

@@ -5,7 +5,7 @@
 class StrongSwordEntity : public IDungeonEntity {
 public:
 	StrongSwordEntity(sp::EntityId id, DungeonRoomPos pos)
-		: IDungeonEntity(id, EntityType::Dragon, pos)
+		: IDungeonEntity(id, EntityType::StrongSword, pos)
 	{
 	}
 };

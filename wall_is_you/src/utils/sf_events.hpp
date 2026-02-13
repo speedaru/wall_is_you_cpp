@@ -4,6 +4,8 @@
 
 namespace sp {
 	namespace utils {
-		bool IsKeyPressed(const sf::Event& event, sf::Keyboard::Key key);
+		namespace ui {
+			bool IsKeyPressed(const sf::Event& event, sf::Keyboard::Key key);
+		}
 	}
 }

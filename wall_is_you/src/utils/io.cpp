@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-std::string utils::ReadFileStr(const fs::path& path) {
+std::string sp::utils::io::ReadFileStr(const fs::path& path) {
 	std::ifstream file(path, std::ios::ate);
 	if (!file.is_open()) {
 		fprintf(stderr, "failed to open %s\n", path.string().c_str());

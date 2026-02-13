@@ -23,6 +23,9 @@ public:
 
 	EntitySystemSnapshot CreateSnapshot() const;
 
+	// clears all entities
+	void Clear();
+
 	const std::vector<std::unique_ptr<IDungeonEntity>>& GetEntities() const;
 
 	template <std::derived_from<IDungeonEntity> T>

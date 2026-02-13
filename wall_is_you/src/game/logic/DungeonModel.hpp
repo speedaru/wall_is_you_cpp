@@ -11,6 +11,8 @@ public:
 	void SetLayout(const DungeonLayout& layout);
 	void SetEntitySystem(const EntitySystem& entSystem);
 
+	void ResetEntitySystem();
+
 	constexpr bool IsLoaded() const {
 		return !m_layout.tiles.empty();
 	}
