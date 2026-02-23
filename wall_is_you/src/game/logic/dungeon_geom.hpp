@@ -7,7 +7,7 @@
 
 
 namespace dungeon_geom {
-	inline constexpr float DUNGEON_SCALE_FACTOR = 2.f;
+	inline constexpr float DUNGEON_SCALE = 2.f;
 	inline sf::Vector2f g_tileSize;
 
 	void InitTileSize(const sf::Texture& tileTexture);
@@ -15,7 +15,11 @@ namespace dungeon_geom {
 	sf::Vector2f GetScaledTileSize();
 
 	// get screen coords of where roomPos is (top left, or center)
-	sf::Vector2f GetRoomPosScreenCoords(const DungeonLayout& dungeonLayout, const DungeonRoomPos& roomPos, AnchorType anchor);
+	sf::Vector2f GetScreenFromRoomPos(const DungeonLayout& dungeonLayout, const DungeonRoomPos& roomPos, AnchorType anchor);
+
+	// get room pos from screen coords
+	// returns nullptr if out of bounds
+	bool GetRoomPosFromScreen(const DungeonLayout& dungeonLayout, sf::Vector2i& screenCoords, DungeonRoomPos* out);
 
 	// calculate rect that dungeon layout should occupy (centered on screen)
 	sf::IntRect GetDungeonLayoutScreenRect(const DungeonLayout& dungeonLayout);

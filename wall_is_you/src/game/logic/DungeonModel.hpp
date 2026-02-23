@@ -13,6 +13,8 @@ public:
 
 	void ResetEntitySystem();
 
+	void RotateRoom(const DungeonRoomPos& roomPos);
+
 	constexpr bool IsLoaded() const {
 		return !m_layout.tiles.empty();
 	}

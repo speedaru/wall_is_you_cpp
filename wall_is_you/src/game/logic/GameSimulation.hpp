@@ -8,6 +8,7 @@
 class IGameStage;
 class SharedGameState;
 struct LoadDungeonData;
+struct RotateRoomData;
 
 class GameSimulation {
 public:
@@ -33,6 +34,7 @@ private:
 
     // logic commands
     void HandleLoadDungeon(const LoadDungeonData& data);
+    void HandleRotateRoom(const RotateRoomData& data);
 
 private:
     // thread and state stuff

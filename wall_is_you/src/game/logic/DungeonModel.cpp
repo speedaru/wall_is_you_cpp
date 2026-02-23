@@ -18,3 +18,9 @@ void DungeonModel::ResetEntitySystem() {
 	m_entitySystem.Clear();
 }
 
+void DungeonModel::RotateRoom(const DungeonRoomPos& roomPos) {
+	assert(roomPos.row < m_layout.height && roomPos.col < m_layout.width);
+	DungeonRoom& room = m_layout.GetRoom(roomPos);
+	room.rotations = (room.rotations + 1) % 4; // keep at 0, 1, 2, 3
+}
+

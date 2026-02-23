@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "game/datatypes/DungeonLayout.hpp"
 
 // payloads for different types of logic commands
 struct LoadDungeonData {
@@ -16,10 +17,15 @@ struct SettingsChangeData {
     bool permadeath;
 };
 
+struct RotateRoomData {
+    DungeonRoomPos roomPos;
+};
+
 using LogicPayload = std::variant<std::monostate,
     LoadDungeonData,
     EntityInteractionData,
-    SettingsChangeData
+    SettingsChangeData,
+    RotateRoomData
 >;
 
 
@@ -28,6 +34,7 @@ struct LogicCommand {
 		HandleLoadDungeon,
 		EntityInteraction,
 		SettingsChange,
+        RotateRoom
 	} type;
     LogicPayload payload;
 };

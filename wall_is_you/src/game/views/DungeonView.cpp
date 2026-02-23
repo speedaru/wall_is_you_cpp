@@ -6,8 +6,8 @@
 #include "engine/AssetManager.hpp"
 
 #include "game/datatypes/UICommands.hpp"
+#include "game/datatypes/LogicCommands.hpp"
 #include "game/datatypes/SharedGameState.hpp"
-//#include "game/datatypes/DungeonSnapshot.hpp"
 #include "game/logic/dungeon_geom.hpp"
 #include "game/constants.hpp"
 #include "game/assets.hpp"
@@ -45,6 +45,21 @@ bool DungeonView::HandleEvent(const sf::RenderWindow& window, const sf::Event& e
 		UICommand cmd;
 		cmd.type = UICommand::Type::PopView;
 		sp::ServiceLocator::GetUIQueue<UICommand>().Push(std::move(cmd));
+		return true;
+	}
+
+	if (sp::utils::ui::IsMouseButtonPressed(event, sf::Mouse::Button::Left)) {
+		auto buttonPressed = event.getIf<sf::Event::MouseButtonPressed>();
+		sf::Vector2i clickCoords = buttonPressed->position;
+		DungeonRoomPos clickedRoom;
+
+		if (dungeon_geom::GetRoomPosFromScreen(m_gameSnap.dungeonSnap.layout, clickCoords, &clickedRoom)) {
+			LogicCommand cmd;
+			cmd.type = LogicCommand::Type::RotateRoom;
+			cmd.payload = RotateRoomData(clickedRoom);
+			sp::ServiceLocator::GetLogicQueue<LogicCommand>().Push(std::move(cmd));
+			return true;
+		}
 	}
 
 	return false;
@@ -80,7 +95,7 @@ void DungeonView::RenderSpriteInRoom(sf::RenderWindow& window, std::unique_ptr<s
 	sp::utils::graphics::SetSpriteScale(*sprite, targetSpriteSize);
 
 	// get room coord on screen
-	sf::Vector2f roomPosOnScreen = dungeon_geom::GetRoomPosScreenCoords(m_gameSnap.dungeonSnap.layout, roomPos, AnchorType::Center);
+	sf::Vector2f roomPosOnScreen = dungeon_geom::GetScreenFromRoomPos(m_gameSnap.dungeonSnap.layout, roomPos, AnchorType::Center);
 	sprite->setPosition(roomPosOnScreen);
 	window.draw(*sprite);
 }
@@ -124,7 +139,7 @@ void DungeonView::SyncEntitySprites(const EntitySystemSnapshot& entitiesSnap) {
 		sp::utils::graphics::SetSpriteScale(sprite, targetSize);
 
 		// set position
-		sf::Vector2f renderPos = dungeon_geom::GetRoomPosScreenCoords(m_gameSnap.dungeonSnap.layout, snap.roomPos, AnchorType::Center);
+		sf::Vector2f renderPos = dungeon_geom::GetScreenFromRoomPos(m_gameSnap.dungeonSnap.layout, snap.roomPos, AnchorType::Center);
 		renderPos += config.pivotOffset; // apply offset
 		sprite.setPosition(renderPos);
     }

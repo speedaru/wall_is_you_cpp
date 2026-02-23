@@ -90,7 +90,7 @@ void Game::HandleUICommands() {
             break;
         case UICommand::Type::PopView:
             windowManager.Pop();
-            break;
+			break;
 		case UICommand::Type::ExitGame:
 			m_gameSimulation.Stop();
 			break;

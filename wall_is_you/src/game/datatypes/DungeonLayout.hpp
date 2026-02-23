@@ -27,6 +27,15 @@ struct DungeonLayout {
     uint32_t width;
     uint32_t height;
     std::vector<DungeonRoom> tiles; // Flat vector representing the grid (index = y * width + x)
+
+	// 0 based indexing
+	DungeonRoom& GetRoom(const DungeonRoomPos& roomPos) {
+		return tiles[(size_t)roomPos.row * width + roomPos.col];
+	}
+	// 0 based indexing
+	const DungeonRoom& GetRoom(const DungeonRoomPos& roomPos) const {
+		return tiles[(size_t)roomPos.row * width + roomPos.col];
+	}
 };
 
 class DungeonLayoutIterator {

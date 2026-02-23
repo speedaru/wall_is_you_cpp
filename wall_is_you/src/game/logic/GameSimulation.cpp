@@ -73,6 +73,10 @@ bool GameSimulation::HandleLogicCommands() {
             break;
         case LogicCommand::Type::EntityInteraction:
             break;  
+        case LogicCommand::Type::RotateRoom:
+            HandleRotateRoom(std::get<RotateRoomData>(cmd.payload));
+            modified = true;
+            break;
         }
     }
 
@@ -136,6 +140,10 @@ void GameSimulation::HandleLoadDungeon(const LoadDungeonData& data) {
 
     // load entites
     LOG_D("loaded dungeon: %s\n", data.path.string().c_str());
+}
+
+void GameSimulation::HandleRotateRoom(const RotateRoomData& data) {
+    m_dungeon.RotateRoom(data.roomPos);
 }
 
 #pragma endregion

@@ -5,10 +5,10 @@
 
 
 sf::IntRect sp::utils::graphics::GetTextureRectFromGrid(const sf::Texture& grid, sf::Vector2f cellSize, int textureIdx) {
-    int columns = grid.getSize().x / cellSize.x;
+    int columns = grid.getSize().x / (int)cellSize.x;
 
-    int x = (textureIdx % columns) * cellSize.x;
-	int y = (textureIdx / columns) * cellSize.y;
+    int x = (textureIdx % columns) * (int)cellSize.x;
+	int y = (textureIdx / columns) * (int)cellSize.y;
 
     return sf::IntRect({x, y}, sf::Vector2i(cellSize));
 }

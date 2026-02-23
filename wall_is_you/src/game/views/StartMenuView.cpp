@@ -22,14 +22,8 @@ bool StartMenuView::HandleEvent(const sf::RenderWindow& window, const sf::Event&
 		UICommand uiCmd;
 		uiCmd.type = UICommand::Type::ExitGame;
 		sp::ServiceLocator::GetUIQueue<UICommand>().Push(std::move(uiCmd));
+        return true;
     }
-
-  //  if (handled |= m_playButton.IsClicked(window, event)) {
-		//UICommand loadDungeonView;
-		//loadDungeonView.type = UICommand::Type::PushView;
-		//loadDungeonView.view = std::make_unique<DungeonView>();
-		//ServiceLocator::GetUIQueue().Push(std::move(loadDungeonView));
-  //  }
 
     // check dungeon file buttons clicked
     for (const auto& [dungeonFile, button] : m_dungeonButtons) {

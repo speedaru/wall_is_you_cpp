@@ -9,28 +9,44 @@ void dungeon_geom::InitTileSize(const sf::Texture& tileTexture) {
 }
 
 sf::Vector2f dungeon_geom::GetScaledTileSize() {
-	return g_tileSize * DUNGEON_SCALE_FACTOR;
+	return g_tileSize * DUNGEON_SCALE;
 }
 
-sf::Vector2f dungeon_geom::GetRoomPosScreenCoords(const DungeonLayout& dungeonLayout, const DungeonRoomPos& roomPos, AnchorType anchor) {
+sf::Vector2f dungeon_geom::GetScreenFromRoomPos(const DungeonLayout& dungeonLayout, const DungeonRoomPos& roomPos, AnchorType anchor) {
 	sf::Vector2i layoutStart = GetDungeonLayoutScreenRect(dungeonLayout).position;
-	sf::Vector2f scaledTileSize = g_tileSize * DUNGEON_SCALE_FACTOR;
+	sf::Vector2f scaledTileSize = g_tileSize * DUNGEON_SCALE;
 
 	sf::Vector2f coords(layoutStart.x + roomPos.col * scaledTileSize.x, layoutStart.y + roomPos.row * scaledTileSize.y);
-	return AnchorCoords(coords, scaledTileSize, anchor);
+	return AnchorCoords(coords, scaledTileSize, anchor); // anchor coords in room rect
+}
+
+bool dungeon_geom::GetRoomPosFromScreen(const DungeonLayout& dungeonLayout, sf::Vector2i& screenCoords, DungeonRoomPos* out) {
+	sf::IntRect layoutRect = GetDungeonLayoutScreenRect(dungeonLayout);
+
+	// check if coords out of bounds
+	if (!layoutRect.contains(screenCoords)) {
+		return false;
+	}
+
+	*out = {
+		.row = static_cast<uint32_t>((screenCoords.y - layoutRect.position.y) / (g_tileSize.y * DUNGEON_SCALE)),
+		.col = static_cast<uint32_t>((screenCoords.x - layoutRect.position.x) / (g_tileSize.x * DUNGEON_SCALE)),
+	};
+
+	return true;
 }
 
 sf::IntRect dungeon_geom::GetDungeonLayoutScreenRect(const DungeonLayout& dungeonLayout) {
 	sf::Vector2i layoutScreenSize = GetDungeonLayoutSize(dungeonLayout, true);
 	sf::Vector2i windowSize = sf::Vector2i(WINDOW_SIZE);
 
-	return sf::IntRect(windowSize / 2 - layoutScreenSize / 2, windowSize / 2 + layoutScreenSize / 2);
+	return sf::IntRect(windowSize / 2 - layoutScreenSize / 2, layoutScreenSize);
 }
 
 sf::Vector2i dungeon_geom::GetDungeonLayoutSize(const DungeonLayout& dungeonLayout, bool scaledSize) {
 	sf::Vector2f tileSize = g_tileSize;
 	if (scaledSize) {
-		tileSize *= DUNGEON_SCALE_FACTOR;
+		tileSize *= DUNGEON_SCALE;
 	}
 
 	return sf::Vector2i(dungeonLayout.width * (int)tileSize.x, dungeonLayout.height * (int)tileSize.y);
