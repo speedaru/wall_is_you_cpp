@@ -1,8 +1,8 @@
 #pragma once
 #include "pch.h"
 
-#include "datatypes/IDungeonEntity.hpp"
-#include "datatypes/EntitySnapshot.hpp"
+#include "game/datatypes/IDungeonEntity.hpp"
+#include "game/datatypes/EntitySnapshot.hpp"
 
 
 class EntitySystem {

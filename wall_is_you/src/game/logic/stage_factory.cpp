@@ -7,9 +7,9 @@ std::shared_ptr<IGameStage> stage_factory::CreateDungeonLoop(DungeonModel& dunge
 	auto dragon = std::make_shared<DragonStage>(dungeonModel);
 	auto roundEnd = std::make_shared<RoundEndStage>(dungeonModel);
 
-	adventurer->SetNextStage(dragon);
-	dragon->SetNextStage(roundEnd);
-	roundEnd->SetNextStage(adventurer);
+	//adventurer->SetNextStage(dragon);
+	//dragon->SetNextStage(roundEnd);
+	//roundEnd->SetNextStage(adventurer);
 
 	// return first stage
 	return adventurer;

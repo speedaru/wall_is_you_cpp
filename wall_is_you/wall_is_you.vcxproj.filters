@@ -30,13 +30,13 @@
     <ClCompile Include="src\engine\WindowManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\Game.hpp">
+    <ClCompile Include="src\game\logic\Game.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\logic\GameSimulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\Game.cpp">
+    <ClCompile Include="src\game\logic\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\logic\stages\RoundEndStage.hpp">
@@ -78,7 +78,7 @@
     <ClCompile Include="src\engine\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\logic\DungeonModel.cpp">
+    <ClCompile Include="src\game\datatypes\DungeonModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\logic\dungeon_loader.cpp">
@@ -87,7 +87,7 @@
     <ClCompile Include="src\utils\io.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\EntitySystem.cpp">
+    <ClCompile Include="src\game\systems\EntitySystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\logic\stage_factory.cpp">
@@ -97,6 +97,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\utils\graphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\TurnController.hpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\datatypes\DungeonStage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,7 +185,7 @@
     <ClInclude Include="src\game\keybinds.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\logic\DungeonModel.hpp">
+    <ClInclude Include="src\game\datatypes\DungeonModel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\datatypes\DungeonSnapshot.hpp">
@@ -209,7 +215,7 @@
     <ClInclude Include="src\game\datatypes\EntityTypes.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\EntitySystem.hpp">
+    <ClInclude Include="src\game\systems\EntitySystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\game\datatypes\EntitySnapshot.hpp">
@@ -243,6 +249,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\graphics.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\datatypes\TurnPhase.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\datatypes\DungeonStage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

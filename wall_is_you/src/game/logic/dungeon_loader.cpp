@@ -6,7 +6,9 @@
 #include "game/datatypes/entities/StrongSwordEntity.hpp"
 #include "game/datatypes/entities/ChaosSealEntity.hpp"
 #include "game/datatypes/entities/TreasureEntity.hpp"
-#include "DungeonModel.hpp"
+#include "game/datatypes/DungeonModel.hpp"
+
+#include "game/systems/EntitySystem.hpp"
 
 #include "utils/logging.hpp"
 #include "utils/io.hpp"

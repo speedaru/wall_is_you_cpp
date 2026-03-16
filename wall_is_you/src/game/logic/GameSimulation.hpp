@@ -2,7 +2,9 @@
 #include "pch.h"
 
 #include "game/datatypes/GameSnapshot.hpp"
-#include "game/logic/DungeonModel.hpp"
+#include "game/datatypes/DungeonModel.hpp"
+
+#include "game/systems/TurnController.hpp"
 
 
 class IGameStage;
@@ -42,9 +44,10 @@ private:
     std::atomic<bool> m_isRunning{ false };
     bool m_isPaused{ false };
 
-    // stages
-    std::shared_ptr<IGameStage> m_currentStage = nullptr;
-    std::queue<std::shared_ptr<IGameStage>> m_interruptQueue;
+    //// stages
+    //std::shared_ptr<IGameStage> m_currentStage = nullptr;
+    //std::queue<std::shared_ptr<IGameStage>> m_interruptQueue;
+    TurnController m_turnController;
 
     // data
     std::unique_ptr<SharedGameState>& m_sharedGameState;

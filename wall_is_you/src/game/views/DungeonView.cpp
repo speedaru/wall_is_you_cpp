@@ -133,7 +133,7 @@ void DungeonView::SyncEntitySprites(const EntitySystemSnapshot& entitiesSnap) {
         sf::Sprite& sprite = m_entitySprites.at(snap.id);
 
 		// handle scaling, calculate scale based on the TILE_SIZE and the multiplier
-		LOG_D("current texture width: %.2f\n", sprite.getLocalBounds().size.x);
+		LOG_T("current texture width: %.2f\n", sprite.getLocalBounds().size.x);
 		const sf::Vector2f scaledTileSize = dungeon_geom::GetScaledTileSize();
 		const sf::Vector2f targetSize = scaledTileSize * config.scaleMultiplier;
 		sp::utils::graphics::SetSpriteScale(sprite, targetSize);

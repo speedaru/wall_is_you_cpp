@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "game/datatypes/DungeonSnapshot.hpp"
-#include "game/EntitySystem.hpp"
+#include "game/systems/EntitySystem.hpp"
 	
 
 class DungeonModel {

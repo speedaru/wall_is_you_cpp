@@ -104,6 +104,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\engine\AssetManager.cpp" />
+    <ClCompile Include="src\game\datatypes\DungeonStage.cpp" />
     <ClCompile Include="src\game\datatypes\UICommands.hpp" />
     <ClCompile Include="src\engine\rendering\SpImage.hpp" />
     <ClCompile Include="src\engine\ServiceLocator.hpp" />
@@ -111,15 +112,16 @@
     <ClCompile Include="src\engine\ui\geom.cpp" />
     <ClCompile Include="src\engine\WindowManager.cpp" />
     <ClCompile Include="src\game\assets.cpp" />
-    <ClCompile Include="src\game\EntitySystem.cpp" />
-    <ClCompile Include="src\game\Game.cpp" />
-    <ClCompile Include="src\game\Game.hpp" />
-    <ClCompile Include="src\game\logic\DungeonModel.cpp" />
+    <ClCompile Include="src\game\systems\EntitySystem.cpp" />
+    <ClCompile Include="src\game\logic\Game.cpp" />
+    <ClCompile Include="src\game\logic\Game.hpp" />
+    <ClCompile Include="src\game\datatypes\DungeonModel.cpp" />
     <ClCompile Include="src\game\logic\dungeon_geom.cpp" />
     <ClCompile Include="src\game\logic\dungeon_loader.cpp" />
     <ClCompile Include="src\game\logic\GameSimulation.cpp" />
     <ClCompile Include="src\game\logic\stages\RoundEndStage.hpp" />
     <ClCompile Include="src\game\logic\stage_factory.cpp" />
+    <ClCompile Include="src\game\TurnController.hpp" />
     <ClCompile Include="src\game\views\DungeonView.cpp" />
     <ClCompile Include="src\game\views\HudView.cpp" />
     <ClCompile Include="src\game\views\StartMenuView.cpp" />
@@ -133,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\datatypes\Entity.hpp" />
+    <ClInclude Include="src\game\datatypes\DungeonStage.hpp" />
     <ClInclude Include="src\game\datatypes\entities\TreasureEntity.hpp" />
     <ClInclude Include="src\game\datatypes\IDungeonEntity.hpp" />
     <ClInclude Include="src\engine\Renderer.hpp" />
@@ -161,9 +164,10 @@
     <ClInclude Include="src\game\constants.hpp" />
     <ClInclude Include="src\game\datatypes\DungeonSnapshot.hpp" />
     <ClInclude Include="src\game\datatypes\SharedGameState.hpp" />
-    <ClInclude Include="src\game\EntitySystem.hpp" />
+    <ClInclude Include="src\game\datatypes\TurnPhase.hpp" />
+    <ClInclude Include="src\game\systems\EntitySystem.hpp" />
     <ClInclude Include="src\game\keybinds.hpp" />
-    <ClInclude Include="src\game\logic\DungeonModel.hpp" />
+    <ClInclude Include="src\game\datatypes\DungeonModel.hpp" />
     <ClInclude Include="src\game\logic\dungeon_geom.hpp" />
     <ClInclude Include="src\game\logic\dungeon_loader.hpp" />
     <ClInclude Include="src\game\logic\GameSimulation.hpp" />
