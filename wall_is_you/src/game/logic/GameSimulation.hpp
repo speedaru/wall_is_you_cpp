@@ -44,12 +44,12 @@ private:
     std::atomic<bool> m_isRunning{ false };
     bool m_isPaused{ false };
 
-    //// stages
-    //std::shared_ptr<IGameStage> m_currentStage = nullptr;
-    //std::queue<std::shared_ptr<IGameStage>> m_interruptQueue;
-    TurnController m_turnController;
-
     // data
     std::unique_ptr<SharedGameState>& m_sharedGameState;
     DungeonModel m_dungeon;
+
+    //// stages
+    //std::shared_ptr<IGameStage> m_currentStage = nullptr;
+    //std::queue<std::shared_ptr<IGameStage>> m_interruptQueue;
+    std::unique_ptr<TurnController> m_turnController;
 };

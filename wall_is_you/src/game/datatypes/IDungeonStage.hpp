@@ -4,11 +4,14 @@
 
 
 class DungeonModel;
+class TurnController;
 
 class IDungeonStage : public IGameStage {
 public:
-	IDungeonStage(DungeonModel& dungeonModel) : m_dungeonModel(dungeonModel) {}
+	IDungeonStage(TurnController& controller, DungeonModel& dungeonModel)
+		: m_controller(controller), m_dungeonModel(dungeonModel) {}
 
 private:
 	DungeonModel& m_dungeonModel;
+	TurnController& m_controller; // controller that owns this stage
 };

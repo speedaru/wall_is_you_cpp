@@ -104,7 +104,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\engine\AssetManager.cpp" />
-    <ClCompile Include="src\game\datatypes\DungeonStage.cpp" />
     <ClCompile Include="src\game\datatypes\UICommands.hpp" />
     <ClCompile Include="src\engine\rendering\SpImage.hpp" />
     <ClCompile Include="src\engine\ServiceLocator.hpp" />
@@ -112,6 +111,7 @@
     <ClCompile Include="src\engine\ui\geom.cpp" />
     <ClCompile Include="src\engine\WindowManager.cpp" />
     <ClCompile Include="src\game\assets.cpp" />
+    <ClCompile Include="src\game\logic\stages\SetupStage.cpp" />
     <ClCompile Include="src\game\systems\EntitySystem.cpp" />
     <ClCompile Include="src\game\logic\Game.cpp" />
     <ClCompile Include="src\game\logic\Game.hpp" />
@@ -120,8 +120,7 @@
     <ClCompile Include="src\game\logic\dungeon_loader.cpp" />
     <ClCompile Include="src\game\logic\GameSimulation.cpp" />
     <ClCompile Include="src\game\logic\stages\RoundEndStage.hpp" />
-    <ClCompile Include="src\game\logic\stage_factory.cpp" />
-    <ClCompile Include="src\game\TurnController.hpp" />
+    <ClCompile Include="src\game\systems\TurnController.cpp" />
     <ClCompile Include="src\game\views\DungeonView.cpp" />
     <ClCompile Include="src\game\views\HudView.cpp" />
     <ClCompile Include="src\game\views\StartMenuView.cpp" />
@@ -165,6 +164,8 @@
     <ClInclude Include="src\game\datatypes\DungeonSnapshot.hpp" />
     <ClInclude Include="src\game\datatypes\SharedGameState.hpp" />
     <ClInclude Include="src\game\datatypes\TurnPhase.hpp" />
+    <ClInclude Include="src\game\logic\stages\InputStage.hpp" />
+    <ClInclude Include="src\game\logic\stages\SetupStage.hpp" />
     <ClInclude Include="src\game\systems\EntitySystem.hpp" />
     <ClInclude Include="src\game\keybinds.hpp" />
     <ClInclude Include="src\game\datatypes\DungeonModel.hpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="src\game\logic\stage_factory.hpp" />
     <ClInclude Include="src\game\logic\stages\AdventurerStage.hpp" />
     <ClInclude Include="src\game\logic\stages\DragonStage.hpp" />
+    <ClInclude Include="src\game\systems\TurnController.hpp" />
     <ClInclude Include="src\game\views\DungeonView.hpp" />
     <ClInclude Include="src\game\views\HudView.hpp" />
     <ClInclude Include="src\game\views\StartMenuView.hpp" />

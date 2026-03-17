@@ -8,7 +8,6 @@
 
 #include "game/datatypes/LogicCommands.hpp"
 #include "game/datatypes/SharedGameState.hpp"
-#include "stage_factory.hpp"
 #include "dungeon_loader.hpp"
 
 #include "utils/logging.hpp"
@@ -85,37 +84,7 @@ bool GameSimulation::HandleLogicCommands() {
 }
 
 bool GameSimulation::UpdateStages(float dt) {
-    //bool modified = false;
-
-    //// exit interupt stage before current stage
-    //if (!m_interruptQueue.empty()) {
-    //    auto& interrupt = m_interruptQueue.front();
-    //    modified |= interrupt->OnUpdate(dt);
-
-    //    if (interrupt->IsFinished()) {
-    //        interrupt->OnExit();
-    //        m_interruptQueue.pop();
-    //    }
-    //}
-
-    //if (m_currentStage) {
-    //    modified |= m_currentStage->OnUpdate(dt);
-
-    //    if (m_currentStage->IsFinished()) {
-    //        m_currentStage->OnExit();
-
-    //        // move to next stage in link
-    //        m_currentStage = m_currentStage->GetNextStage();
-
-    //        // enter next stage
-    //        if (m_currentStage) {
-    //            m_currentStage->OnEnter();
-    //        }
-    //    }
-    //}
-
-    //return modified;
-    return false;
+    return m_turnController->Update(dt);
 }
 
 void GameSimulation::UpdateGameSnapshot() {
@@ -130,14 +99,14 @@ void GameSimulation::UpdateGameSnapshot() {
 #pragma region logic_commands
 
 void GameSimulation::HandleLoadDungeon(const LoadDungeonData& data) {
-	//// create stages
-	//m_currentStage = stage_factory::CreateDungeonLoop(m_dungeon);
-
     // clear previous dungeon
     m_dungeon.ResetEntitySystem();
 
     // load dungeon layout
     dungeon_loader::LoadFromFile(data.path, m_dungeon);
+
+    // create turn controller
+    m_turnController = std::make_unique<TurnController>(m_dungeon);
 
     // load entites
     LOG_D("loaded dungeon: %s\n", data.path.string().c_str());

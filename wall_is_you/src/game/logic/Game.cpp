@@ -34,7 +34,7 @@ void Game::CreateInitialView() {
     // Initial Window is Start Menu
     sp::ServiceLocator::GetWindowManager().Push(std::make_unique<StartMenuView>());
 
-    m_gameSimulation.Start();
+	m_gameSimulation.Start();
 }
 
 void Game::DoFrame() {

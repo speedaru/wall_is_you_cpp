@@ -9,7 +9,7 @@
 #include "game/datatypes/LogicCommands.hpp"
 #include "game/assets.hpp"
 #include "game/constants.hpp"
-#include "game/Game.hpp"
+#include "game/logic/Game.hpp"
 
 #include "utils/logging.hpp"
 
