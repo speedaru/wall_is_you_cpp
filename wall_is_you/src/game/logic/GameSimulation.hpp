@@ -29,6 +29,7 @@ private:
 
     // returns true if state changed
     [[nodiscard]] bool HandleLogicCommands();
+
     // returns true if state changed
     [[nodiscard]] bool UpdateStages(float dt);
 

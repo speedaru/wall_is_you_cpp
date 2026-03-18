@@ -56,7 +56,7 @@ void TurnController::AddInterrupt(std::unique_ptr<IDungeonStage>& interrupt) {
 
 
 void TurnController::TransitionToNextPhase() {
-	m_currentStage->OnEnter();
+	m_currentStage->OnExit();
 
 	// go to next phase and at last phase go back to first one
 	switch (m_phase) {

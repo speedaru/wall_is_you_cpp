@@ -4,13 +4,19 @@
 
 #include "game/datatypes/IDungeonStage.hpp"
 
+#include "utils/logging.hpp"
+
+
+struct TurnContext {
+
+};
 
 class AdventurerStage : public IDungeonStage {
 public:
 	using IDungeonStage::IDungeonStage;
 
 	virtual void OnEnter() override {
-		
+		LOG_D("entered adventurer stage\n");
 	}
 
 	virtual bool OnUpdate(float dt) override {

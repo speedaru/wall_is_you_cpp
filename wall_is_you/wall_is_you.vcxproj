@@ -111,6 +111,7 @@
     <ClCompile Include="src\engine\ui\geom.cpp" />
     <ClCompile Include="src\engine\WindowManager.cpp" />
     <ClCompile Include="src\game\assets.cpp" />
+    <ClCompile Include="src\game\logic\stages\InputStage.cpp" />
     <ClCompile Include="src\game\logic\stages\SetupStage.cpp" />
     <ClCompile Include="src\game\systems\EntitySystem.cpp" />
     <ClCompile Include="src\game\logic\Game.cpp" />
